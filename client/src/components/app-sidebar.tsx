@@ -155,15 +155,15 @@ export function AppSidebar({ role }: AppSidebarProps) {
               <GraduationCap className="h-6 w-6" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Gaya College</h2>
-              <p className="text-xs text-muted-foreground">MBA Department</p>
+              <h2 className="text-lg font-bold uppercase">Gaya College</h2>
+              <p className="text-xs text-muted-foreground uppercase font-semibold">MBA Department</p>
             </div>
           </div>
         </SidebarHeader>
         <SidebarContent>
           {Object.entries(groupedItems).map(([group, items]) => (
             <SidebarGroup key={group}>
-              <SidebarGroupLabel>{group}</SidebarGroupLabel>
+              <SidebarGroupLabel className="uppercase font-bold">{group}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
@@ -171,7 +171,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
                       <SidebarMenuButton asChild isActive={location === item.url}>
                         <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                           <item.icon />
-                          <span>{item.title}</span>
+                          <span className="uppercase font-bold">{item.title}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -193,8 +193,8 @@ export function AppSidebar({ role }: AppSidebarProps) {
             <GraduationCap className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold">Gaya College</h2>
-            <p className="text-xs text-muted-foreground">Student Portal</p>
+            <h2 className="text-lg font-bold uppercase">Gaya College</h2>
+            <p className="text-xs text-muted-foreground uppercase font-semibold">Student Portal</p>
           </div>
         </div>
       </SidebarHeader>
@@ -207,7 +207,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
                   <SidebarMenuButton asChild isActive={location === item.url}>
                     <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span className="uppercase font-bold">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
