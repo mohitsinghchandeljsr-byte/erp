@@ -54,12 +54,17 @@ export default function TeacherDashboard() {
 
   return (
     <div className="space-y-8" data-testid="page-teacher-dashboard">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
-            Welcome back! Here's what's happening today.
-          </p>
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+            <Users className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+            <p className="text-muted-foreground mt-1">
+              Gaya College MBA Department • Academic Year 2024-2025
+            </p>
+          </div>
         </div>
         <StudentCreateDialog />
       </div>
