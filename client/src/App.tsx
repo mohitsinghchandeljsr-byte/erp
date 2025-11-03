@@ -47,6 +47,7 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
           <header className="flex items-center justify-between gap-4 p-4 border-b bg-background sticky top-0 z-40">
             <SidebarTrigger data-testid="button-sidebar-toggle" />
             <div className="flex items-center gap-2">
+              <ChatBot />
               <Button variant="ghost" size="icon" data-testid="button-notifications">
                 <Bell className="h-5 w-5" />
               </Button>
@@ -80,7 +81,6 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
-      <ChatBot />
     </SidebarProvider>
   );
 }
@@ -100,6 +100,7 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
           <header className="flex items-center justify-between gap-4 p-4 border-b bg-background sticky top-0 z-40">
             <SidebarTrigger data-testid="button-sidebar-toggle" />
             <div className="flex items-center gap-2">
+              <ChatBot />
               <Button variant="ghost" size="icon" data-testid="button-notifications">
                 <Bell className="h-5 w-5" />
               </Button>
@@ -133,7 +134,6 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
-      <ChatBot />
     </SidebarProvider>
   );
 }

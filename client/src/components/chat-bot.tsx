@@ -55,18 +55,18 @@ export function ChatBot() {
   if (!isOpen) {
     return (
       <Button
+        variant="ghost"
         size="icon"
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
         onClick={() => setIsOpen(true)}
         data-testid="button-open-chat"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-5 w-5" />
       </Button>
     );
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl z-50 flex flex-col" data-testid="card-chatbot">
+    <Card className="fixed top-16 right-4 w-96 h-[600px] shadow-2xl z-50 flex flex-col" data-testid="card-chatbot">
       <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-4">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-primary" />
