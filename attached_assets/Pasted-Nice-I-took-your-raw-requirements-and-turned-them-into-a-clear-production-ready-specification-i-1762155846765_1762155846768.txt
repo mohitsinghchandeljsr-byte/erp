@@ -1,0 +1,251 @@
+Nice — I took your raw requirements and turned them into a clear, production-ready specification + implementation plan, UI options, data model, and deployment notes you can hand to a dev team (or I can expand any part into code, mockups, or a Word/PDF). I kept it focused on a clean, functional UI (shadcn + Tailwind), teacher/student separation, Notion integration, offline Electron app, and the syllabus / permission rules you asked for.
+
+---
+
+# 1 — One-page project summary (elevator)
+
+Build an in-house ERP for the MBA department of **Gaya College**: a single web application used by both students and teachers (role-based UI). Core modules: Student management (create/edit, soft-delete & archive), Attendance, Timetable, Online exams, Schedules, Event management, Marks, E-book management with access via student ID, Syllabus (editable), and a built-in Note/Journal app (Notion sync). Only teachers can create students or change privileged data. Provide clean shadcn-based UI with light/dark theme toggle, multiple UI style options, and an offline desktop installer using Electron (auto-sync when online). Integrate Notion for note backup and optionally for shared course pages.
+
+---
+
+# 2 — User roles & permissions (summary)
+
+* **Admin (optional)** — full system control, user/role management, settings.
+* **Teacher** — create/edit students; manage attendance, marks, exams, timetable, e-books, events, syllabus edit permission; view logs.
+* **Student** — view own attendance, timetable, marks, e-books (open online via student ID), take notes/journal, participate in online exams (when scheduled).
+* **Guest / Read-only** (optional) — view public events/schedules.
+
+**Key rule:** Deleting a student should be *soft delete* (moves to `archived_students`) visible in a special section. Nothing is permanently lost without Admin action.
+
+---
+
+# 3 — Core features & behavior (detailed)
+
+## Student Management
+
+* CRUD for student records (Teacher or Admin create). Required fields: student_id, name, program, batch, email, phone, photo, enrollment_date, status (active/archived/deleted), created_by, deleted_by, deleted_at.
+* Soft-delete → moves to `archived_students` or `students` table with flag `is_archived = true`. Archived records searchable and restorable.
+* Audit trail (who/when/what changed).
+
+## Attendance
+
+* Course/subject-based attendance.
+* Daily and sessionable records.
+* Upload/scan options (CSV import) and manual marking.
+* Auto-summary by % and alerts below threshold.
+
+## Timetable
+
+* Per batch/semester/classroom mapping.
+* Week-view and printable view.
+* Export to ICS for calendar apps.
+
+## Online Exams
+
+* Create exams (time window, allowed attempts, question bank).
+* Question types: MCQ, short text, file upload.
+* Secure student authentication (student_id + password / 2FA optional).
+* Auto-grading + manual grading for descriptive answers.
+* Exam logs and plagiarism flagging (optional integration).
+
+## Schedules & Events
+
+* Department events, seminars, placements, schedules—publish and notify students.
+* RSVP / attendance for events.
+
+## Marks
+
+* Configurable grading structure (internal, external, total).
+* Per subject marks, aggregate reports, transcripts export (PDF).
+
+## Ebook Management
+
+* Upload PDFs/epubs to storage.
+* Access control: open ebooks in-browser using authenticated student ID (inline viewer).
+* Download policy configurable (disable downloads if required).
+
+## Note-taking & Journal app
+
+* Rich-text notes, tags, notebooks.
+* Journal mode (daily entries).
+* Option to export / backup to Notion (two-way sync can be enabled).
+* Local offline storage (IndexedDB) and sync queue.
+
+## Syllabus
+
+* Per subject syllabus page with sections.
+* Edit permissions for teacher/admin.
+* History/versioning (who edited and when).
+* Downloadable as PDF.
+
+## Integrations
+
+* **Notion:** sync notes and optionally syllabus pages. Use Notion API to create/update pages under a department workspace. Map notebooks → Notion pages.
+* **Email / SMS gateway** for notifications (optional).
+* **Auth via college LDAP / SSO** (if available) or local JWT auth.
+
+---
+
+# 4 — Data model (high-level tables)
+
+(Example PostgreSQL tables)
+
+* `users` (id, name, email, role, password_hash, student_id?, created_at)
+* `students` (id, student_id, user_id, program, batch, phone, photo_url, is_archived, archived_at, archived_by)
+* `attendance` (id, student_id, subject_id, date, status, marked_by)
+* `timetables` (id, batch, day_of_week, start_time, end_time, subject_id, room)
+* `exams` (id, title, subject_id, start_at, end_at, created_by, settings)
+* `questions` (id, exam_id, type, content, options_json, marks)
+* `marks` (id, student_id, exam_id, marks_obtained, graded_by)
+* `ebooks` (id, title, file_url, access_policy)
+* `notes` (id, owner_id, title, content_html, tags, is_journal, created_at, updated_at)
+* `syllabus` (id, subject_id, content_md, version, updated_by)
+* `audit_logs` (id, entity_type, entity_id, action, old_value_json, new_value_json, performed_by, performed_at)
+
+---
+
+# 5 — API surface (example endpoints)
+
+* `POST /auth/login` — login
+* `GET /me` — profile
+* `POST /students` — create student (Teacher only)
+* `GET /students` — list (filters + show_archived)
+* `PATCH /students/:id` — edit
+* `DELETE /students/:id` — soft archive
+* `POST /attendance/bulk` — mark attendance
+* `GET /timetable/:batch` — timetable
+* `POST /exams` — create exam
+* `POST /exams/:id/attempt` — submit attempt
+* `GET /ebooks/:id/view` — authenticated view
+* `GET /notes` / `POST /notes` / `PATCH /notes/:id` — note CRUD
+* `POST /notion/sync` — push notes to Notion
+* `GET /reports/transcript/:student_id` — PDF transcript
+
+All endpoints guarded by role-based middleware.
+
+---
+
+# 6 — Frontend & UI (shadcn + Tailwind) — 3 design options
+
+I propose building the frontend with **React + TypeScript + Tailwind + shadcn/ui**. Use shadcn components for a polished minimal UI and FRAMER MOTION for small transitions.
+
+**Common design elements**
+
+* Top header with: logo (left), search box, theme toggle (light/dark), user avatar + role menu (right).
+* Left vertical navigation (collapsible) for desktop; bottom nav for mobile.
+* Responsive cards and data tables (shadcn `DataTable` style).
+* Accessible color contrast; compact spacing for academic use.
+
+**UI Option A — “Academic Dashboard”** (clean, information-dense)
+
+* Dense grid cards: Attendance %, Next Class, Upcoming Exams, Recent Notes.
+* Left nav with icons + labels.
+* Ideal for admin/teachers who need many metrics at-a-glance.
+
+**UI Option B — “Reader-Friendly”** (spacious, large typography)
+
+* Larger fonts, generous spacing, emphasis on e-books and notes.
+* Ideal for students and reading-centric usage.
+
+**UI Option C — “Minimal / Compact”** (single-color accent)
+
+* Very compact lists and inline editing.
+* Great for power users and kiosk displays.
+
+I can produce 3 small visual mockups (Figma-style) or a live React component file that demonstrates each style using shadcn if you want.
+
+**Theme toggle placement**
+
+* Put the Light/Dark toggle in the top header next to the user avatar (prominent). Also include `prefers-color-scheme` auto-detect and a persistent user preference stored in backend profile.
+
+---
+
+# 7 — Offline desktop (Electron) & Sync flow
+
+* Build desktop wrapper using **Electron + React**. Bundle the same web app into Electron with a separate config for offline behavior.
+* **Offline storage:** use IndexedDB (via Dexie.js) for notes, attendance drafts, and cached e-books metadata. Store uploaded files in a local folder with reference.
+* **Sync strategy:** optimistic local writes → queue changes → background sync when online. Conflict-resolution: last-write-wins with teacher override or show conflict resolution UI.
+* **Installer:** produce Windows (NSIS or Squirrel) and Linux AppImage/Deb packages. Use Electron-builder.
+* **Security:** encrypt local DB with key derived from user login (optional) and implement secure token refresh.
+
+Basic packaging commands (example):
+
+* `yarn build` → `yarn electron:build` (configure electron-builder with targets: nsis, deb, appimage).
+
+---
+
+# 8 — Notion integration plan
+
+* Use Notion API: create a Notion integration and request access to a department workspace.
+* Map `notes` (notebooks → database rows) and allow push/pull sync:
+
+  * Initial sync: push local notebooks as Notion pages.
+  * Ongoing: changes made in Notion are pulled and matched by `external_id` mapping.
+* Provide manual sync button and scheduled sync (every X minutes).
+* Permissions: Notion backup is optional and requires admin authorization.
+
+---
+
+# 9 — Security & compliance
+
+* Passwords: bcrypt or argon2.
+* Sessions: JWT + refresh tokens with secure cookies (or local storage for Electron with encryption).
+* Role-based access control enforced server-side.
+* Data backups: nightly DB backups; versioned syllabus and notes.
+* Soft-delete and audit logs for forensic needs.
+* GDPR-like considerations (data export, delete request flows) — optional depending on policy.
+
+---
+
+# 10 — Implementation stack (recommended)
+
+* **Frontend:** React + TypeScript + Tailwind CSS + shadcn/ui + React Router + Zustand/React Query
+* **Backend:** Node.js + TypeScript + NestJS or Express + TypeORM/Prisma
+* **DB:** PostgreSQL
+* **File storage:** S3-compatible (MinIO on-prem optional) or local server storage
+* **Desktop:** Electron + same React build
+* **Auth:** JWT or SSO (LDAP) if college supports
+* **Search:** Postgres full-text search / ElasticSearch optional
+* **CI/CD:** GitHub Actions → Deploy to VPS (DigitalOcean / college server / on-prem)
+* **Containerization:** Docker Compose or Kubernetes for production
+
+---
+
+# 11 — MVP feature set (what to build first)
+
+1. Auth + role system (Teacher / Student)
+2. Student management (create/list/archive) + soft-delete + audit trail
+3. Timetable + Syllabus (view + teacher edit)
+4. Attendance basic
+5. E-book viewer + storage
+6. Note-taking (local) + Notion sync (optional)
+7. Dark/light theme + shadcn UI baseline
+8. Electron packaging (basic offline notes + sync)
+
+Deliver incremental releases: web app first, then Electron desktop with offline sync.
+
+---
+
+# 12 — Extra deliverables I can provide right now (pick any)
+
+* Full **ER diagram** in PNG / Mermaid text.
+* **API spec** (OpenAPI/Swagger) for the endpoints above.
+* Starter **React + shadcn** UI component showing header + theme toggle + sample dashboard.
+* **Electron build script** and example `electron-builder` config.
+* **Word/PDF** requirement document formatted for handoff (I can create and export).
+* 3 quick **UI mockup images** for the three UI options.
+
+---
+
+# 13 — Next steps I took (best-effort plan)
+
+I turned your raw ask into this structured spec and implementation plan including UI options and offline strategy. If you want, tell me which of the extra deliverables in section 12 you want now and I’ll generate it immediately (e.g., OpenAPI YAML, a React starter file using shadcn, or the Word/PDF handoff doc). I’ll produce the file or code in this conversation — no waiting.
+
+---
+
+Would you like me to:
+A) generate the **ER diagram** (Mermaid or PNG),
+B) create a **React starter** (shadcn + theme toggle + sample pages) code file, or
+C) produce a **hand-off Word/PDF** requirements document now?
+
+Pick one and I’ll create it right here.
