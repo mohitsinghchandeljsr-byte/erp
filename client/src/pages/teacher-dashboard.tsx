@@ -1,8 +1,10 @@
-import { MetricCard } from "@/components/metric-card";
+import { GradientMetricCard } from "@/components/gradient-metric-card";
+import { ActivityFeed } from "@/components/activity-feed";
+import { PerformanceChart } from "@/components/performance-chart";
 import { StudentTable } from "@/components/student-table";
 import { StudentCreateDialog } from "@/components/student-create-dialog";
 import { AttendanceMarkingDialog } from "@/components/attendance-marking-dialog";
-import { Users, ClipboardCheck, BookOpen, TrendingUp, Upload } from "lucide-react";
+import { Users, ClipboardCheck, BookOpen, TrendingUp, Upload, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -56,47 +58,65 @@ export default function TeacherDashboard() {
   return (
     <div className="space-y-6" data-testid="page-teacher-dashboard">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Gaya College MBA Department • Academic Year 2024-2025
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-green-600 shadow-lg">
+            <Sparkles className="h-6 w-6 text-white" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Gaya College MBA Department • Academic Year 2024-2025
+            </p>
+          </div>
         </div>
         <StudentCreateDialog />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <MetricCard
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <GradientMetricCard
           title="Total Students"
           value={students.length.toString()}
           subtitle="Active enrollments"
           icon={Users}
+          gradient="bg-gradient-to-br from-blue-500 to-blue-600"
         />
-        <MetricCard
-          title="Attendance Rate"
+        <GradientMetricCard
+          title="Attendance"
           value="87.5%"
           subtitle="This month"
           icon={ClipboardCheck}
           trend={{ value: 3, positive: true }}
+          gradient="bg-gradient-to-br from-green-500 to-green-600"
         />
-        <MetricCard
+        <GradientMetricCard
           title="E-Books"
           value="42"
-          subtitle="Available resources"
+          subtitle="Resources"
           icon={BookOpen}
+          gradient="bg-gradient-to-br from-purple-500 to-purple-600"
         />
-        <MetricCard
-          title="Average Marks"
+        <GradientMetricCard
+          title="Avg Marks"
           value="78.2"
-          subtitle="Overall performance"
+          subtitle="Performance"
           icon={TrendingUp}
           trend={{ value: 5, positive: false }}
+          gradient="bg-gradient-to-br from-orange-500 to-orange-600"
         />
       </div>
 
-      <Card>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <PerformanceChart />
+        </div>
+        <ActivityFeed />
+      </div>
+
+      <Card className="shadow-sm border-border/40">
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-3">
-          <CardTitle className="text-base">Recent Students</CardTitle>
+          <CardTitle className="text-lg font-semibold">Recent Students</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           {isLoading ? (
@@ -116,12 +136,12 @@ export default function TeacherDashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Quick Actions</CardTitle>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="shadow-sm border-border/40">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-1.5">
+          <CardContent className="space-y-2">
             <AttendanceMarkingDialog />
             <Button variant="outline" className="w-full justify-start" data-testid="button-create-exam">
               <BookOpen className="h-4 w-4 mr-2" />
@@ -134,18 +154,21 @@ export default function TeacherDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm">System Status</CardTitle>
+        <Card className="shadow-sm border-border/40 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg font-semibold">System Status</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Database Backup</span>
-              <span className="text-sm text-green-600 font-medium">2 hours ago</span>
+              <span className="text-sm text-green-600 font-semibold">2 hours ago</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Bot Status</span>
-              <span className="text-sm text-green-600 font-medium">Active</span>
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-sm text-green-600 font-semibold">Active</span>
+              </div>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Storage Used</span>
