@@ -13,7 +13,6 @@ interface IDCardData {
   studentId: string;
   batch: string;
   program: string;
-  photoUrl: string;
 }
 
 export function IDCardGenerator() {
@@ -22,7 +21,6 @@ export function IDCardGenerator() {
     studentId: "",
     batch: "",
     program: "MBA",
-    photoUrl: "",
   });
   const [qrCode, setQrCode] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -89,16 +87,6 @@ export function IDCardGenerator() {
               data-testid="input-program"
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="photo">Photo URL</Label>
-            <Input
-              id="photo"
-              placeholder="https://..."
-              value={formData.photoUrl}
-              onChange={(e) => handleInputChange("photoUrl", e.target.value)}
-              data-testid="input-photo"
-            />
-          </div>
         </CardContent>
       </Card>
 
@@ -122,13 +110,16 @@ export function IDCardGenerator() {
             <canvas ref={canvasRef} className="hidden" />
             <div className="flex items-start gap-4 h-full">
               <Avatar className="h-24 w-24 border-2 border-background">
-                {formData.photoUrl ? (
-                  <AvatarImage src={formData.photoUrl} />
-                ) : (
-                  <AvatarFallback>
-                    <User className="h-12 w-12" />
-                  </AvatarFallback>
-                )}
+                <AvatarFallback className="text-2xl font-semibold">
+                  {formData.name
+                    ? formData.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()
+                        .slice(0, 2)
+                    : <User className="h-12 w-12" />}
+                </AvatarFallback>
               </Avatar>
               <div className="flex-1 space-y-2">
                 <div className="space-y-1">
