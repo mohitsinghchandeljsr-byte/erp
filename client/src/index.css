@@ -60,14 +60,14 @@
   --font-serif: 'Inter', sans-serif;
   --font-mono: Menlo, monospace;
   --radius: 0.4rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 1px 2px -1px hsl(9 75% 61% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 1px 2px -1px hsl(9 75% 61% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 2px 4px -1px hsl(9 75% 61% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 4px 6px -1px hsl(9 75% 61% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 8px 10px -1px hsl(9 75% 61% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
+  --shadow-2xs: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 1px 2px -1px hsl(9, 75%, 61% / 0.00);
+  --shadow: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 1px 2px -1px hsl(9, 75%, 61% / 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 2px 4px -1px hsl(9, 75%, 61% / 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 4px 6px -1px hsl(9, 75%, 61% / 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 8px 10px -1px hsl(9, 75%, 61% / 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
