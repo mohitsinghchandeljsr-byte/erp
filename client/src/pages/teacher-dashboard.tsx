@@ -53,18 +53,18 @@ export default function TeacherDashboard() {
   };
 
   return (
-    <div className="space-y-6" data-testid="page-teacher-dashboard">
+    <div className="space-y-8" data-testid="page-teacher-dashboard">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground mt-2">
-            Overview of your department's key metrics
+          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-muted-foreground mt-1">
+            Welcome back! Here's what's happening today.
           </p>
         </div>
         <StudentCreateDialog />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total Students"
           value={students.length.toString()}
@@ -94,17 +94,17 @@ export default function TeacherDashboard() {
       </div>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-2">
-          <CardTitle>Students</CardTitle>
-          <Button variant="outline" size="sm">
-            View All
-          </Button>
+        <CardHeader className="flex flex-row items-center justify-between gap-2 pb-4">
+          <div>
+            <CardTitle className="text-xl">Recent Students</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">Manage your student roster</p>
+          </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {isLoading ? (
-            <div className="text-center py-8 text-muted-foreground">Loading students...</div>
+            <div className="text-center py-12 text-muted-foreground">Loading students...</div>
           ) : students.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="text-center py-12 text-muted-foreground">
               No students found. Create your first student to get started.
             </div>
           ) : (
@@ -118,10 +118,10 @@ export default function TeacherDashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <AttendanceMarkingDialog />
@@ -137,20 +137,20 @@ export default function TeacherDashboard() {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>System Status</CardTitle>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">System Status</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Database Backup</span>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between py-1">
+              <span className="text-sm text-muted-foreground">Database Backup</span>
               <span className="text-sm text-green-600 font-medium">2 hours ago</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Bot Status</span>
+            <div className="flex items-center justify-between py-1">
+              <span className="text-sm text-muted-foreground">Bot Status</span>
               <span className="text-sm text-green-600 font-medium">Active</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Storage Used</span>
+            <div className="flex items-center justify-between py-1">
+              <span className="text-sm text-muted-foreground">Storage Used</span>
               <span className="text-sm font-medium">245 MB / 10 GB</span>
             </div>
           </CardContent>
