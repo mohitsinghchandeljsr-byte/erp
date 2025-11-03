@@ -10,14 +10,13 @@ const loginSchema = z.object({
   password: z.string().min(6),
 });
 
-const registerSchema = z.object({
+const registerStudentSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
-  role: z.enum(["teacher", "student"]),
   name: z.string().min(1),
-  studentId: z.string().optional(),
-  program: z.string().optional(),
-  batch: z.string().optional(),
+  studentId: z.string().min(1),
+  program: z.string().min(1),
+  batch: z.string().min(1),
 });
 
 router.post("/login", async (req, res) => {
@@ -37,21 +36,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// SECURITY: Registration disabled for production
+// Teachers must be created via seed script or admin interface
+// Students can only be created by authenticated teachers via /api/students
 router.post("/register", async (req, res) => {
-  try {
-    const data = registerSchema.parse(req.body);
-    const result = await authService.register(data);
-
-    res.cookie("token", result.token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    res.status(201).json(result);
-  } catch (error: any) {
-    res.status(400).json({ message: error.message || "Registration failed" });
-  }
+  return res.status(403).json({ 
+    message: "Public registration is disabled. Students must be created by teachers. Contact your administrator for access." 
+  });
 });
 
 router.post("/logout", (req, res) => {

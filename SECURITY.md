@@ -9,6 +9,17 @@ If you discover a security vulnerability within the Gaya College ERP System, ple
 3. Provide detailed information about the vulnerability
 4. Allow reasonable time for a fix before public disclosure
 
+## Critical Security Measures
+
+### 🔐 Required Configuration
+- **SESSION_SECRET REQUIRED**: Application will fail to start if SESSION_SECRET environment variable is not set
+- **No Insecure Fallbacks**: No hardcoded secrets or fallback values
+- **Public Registration Disabled**: Teachers must be created via seed script; students created by teachers only
+
+### 🚫 Disabled Features for Security
+- **Public Registration Endpoint**: Returns 403 Forbidden to prevent unauthorized account creation
+- **Self-Service Teacher Creation**: Teachers can only be created by administrators via seed script or database
+
 ## Security Features
 
 ### Authentication & Authorization

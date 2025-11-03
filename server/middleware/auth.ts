@@ -4,7 +4,15 @@ import { db } from "../db";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
-const JWT_SECRET = process.env.SESSION_SECRET || "your-secret-key-change-in-production";
+// CRITICAL: SESSION_SECRET must be set in production
+if (!process.env.SESSION_SECRET) {
+  throw new Error(
+    "FATAL: SESSION_SECRET environment variable is not set. " +
+    "Generate a secure secret with: openssl rand -base64 32"
+  );
+}
+
+const JWT_SECRET = process.env.SESSION_SECRET;
 
 export interface AuthRequest extends Request {
   user?: {
