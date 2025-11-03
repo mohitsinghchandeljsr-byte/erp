@@ -1,0 +1,53 @@
+{
+  "appId": "com.gayacollege.erp",
+  "productName": "Gaya College ERP",
+  "directories": {
+    "output": "electron-dist"
+  },
+  "files": [
+    "electron/**/*",
+    "dist/**/*",
+    "package.json"
+  ],
+  "extraMetadata": {
+    "main": "electron/main.js"
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "electron/icon.png",
+    "artifactName": "GayaCollegeERP-Setup-${version}.${ext}",
+    "requestedExecutionLevel": "asInvoker"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Gaya College ERP",
+    "installerIcon": "electron/icon.png",
+    "uninstallerIcon": "electron/icon.png",
+    "license": "LICENSE.txt"
+  },
+  "portable": {
+    "artifactName": "GayaCollegeERP-Portable-${version}.${ext}"
+  },
+  "mac": {
+    "target": ["dmg", "zip"],
+    "icon": "electron/icon.png",
+    "category": "public.app-category.education"
+  },
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "icon": "electron/icon.png",
+    "category": "Education"
+  }
+}
