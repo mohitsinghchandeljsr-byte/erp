@@ -11,6 +11,7 @@ import { ChatBot } from "@/components/chat-bot";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import LoginPage from "@/pages/login";
 import TeacherDashboard from "@/pages/teacher-dashboard";
+import AttendancePage from "@/pages/attendance-page";
 import StudentDashboard from "@/pages/student-dashboard";
 import NotFound from "@/pages/not-found";
 import { Bell, LogOut } from "lucide-react";
@@ -175,11 +176,29 @@ function Router() {
           </ProtectedRoute>
         )}
       </Route>
+      <Route path="/teacher/attendance">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <AttendancePage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
       <Route path="/student">
         {() => (
           <ProtectedRoute requireRole="student">
             <StudentLayout>
               <StudentDashboard />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/attendance">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <AttendancePage />
             </StudentLayout>
           </ProtectedRoute>
         )}
