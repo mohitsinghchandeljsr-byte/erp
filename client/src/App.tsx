@@ -1,4 +1,5 @@
 import { Switch, Route, Redirect } from "wouter";
+import { lazy, Suspense } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -10,16 +11,18 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ChatBot } from "@/components/chat-bot";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import LoginPage from "@/pages/login";
-import TeacherDashboard from "@/pages/teacher-dashboard";
-import StudentsPage from "@/pages/students-page";
-import AttendancePage from "@/pages/attendance-page";
-import TimetablePage from "@/pages/timetable-page";
-import ExamsPage from "@/pages/exams-page";
-import MarksPage from "@/pages/marks-page";
-import EBooksPage from "@/pages/ebooks-page";
-import EventsPage from "@/pages/events-page";
-import StudentDashboard from "@/pages/student-dashboard";
-import NotFound from "@/pages/not-found";
+
+// Lazy load pages for better performance
+const TeacherDashboard = lazy(() => import("@/pages/teacher-dashboard"));
+const StudentsPage = lazy(() => import("@/pages/students-page"));
+const AttendancePage = lazy(() => import("@/pages/attendance-page"));
+const TimetablePage = lazy(() => import("@/pages/timetable-page"));
+const ExamsPage = lazy(() => import("@/pages/exams-page"));
+const MarksPage = lazy(() => import("@/pages/marks-page"));
+const EBooksPage = lazy(() => import("@/pages/ebooks-page"));
+const EventsPage = lazy(() => import("@/pages/events-page"));
+const StudentDashboard = lazy(() => import("@/pages/student-dashboard"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 import { Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -156,15 +159,25 @@ function ProtectedRoute({ children, requireRole }: { children: React.ReactNode; 
   return <>{children}</>;
 }
 
+const PageLoader = () => (
+  <div className="flex items-center justify-center h-screen">
+    <div className="text-center">
+      <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+      <p className="mt-2 text-sm text-muted-foreground">Loading...</p>
+    </div>
+  </div>
+);
+
 function Router() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+    return <PageLoader />;
   }
 
   return (
-    <Switch>
+    <Suspense fallback={<PageLoader />}>
+      <Switch>
       <Route path="/">
         {() => {
           if (user) {
@@ -264,7 +277,8 @@ function Router() {
         )}
       </Route>
       <Route component={NotFound} />
-    </Switch>
+      </Switch>
+    </Suspense>
   );
 }
 

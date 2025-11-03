@@ -7,7 +7,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Search, Filter } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 interface Student {
   id: string;
@@ -48,21 +48,23 @@ export default function StudentsPage() {
     },
   });
 
-  const handleArchive = (student: Student) => {
+  const handleArchive = useCallback((student: Student) => {
     if (confirm(`Are you sure you want to archive ${student.name}?`)) {
       archiveMutation.mutate(student.id);
     }
-  };
+  }, [archiveMutation]);
 
-  const filteredStudents = students.filter(student => {
-    const matchesSearch = student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         student.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         student.email.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesBatch = batchFilter === "all" || student.batch === batchFilter;
-    return matchesSearch && matchesBatch;
-  });
+  const filteredStudents = useMemo(() => {
+    return students.filter(student => {
+      const matchesSearch = student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           student.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           student.email.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesBatch = batchFilter === "all" || student.batch === batchFilter;
+      return matchesSearch && matchesBatch;
+    });
+  }, [students, searchQuery, batchFilter]);
 
-  const batches = Array.from(new Set(students.map(s => s.batch)));
+  const batches = useMemo(() => Array.from(new Set(students.map(s => s.batch))), [students]);
 
   return (
     <div className="space-y-6" data-testid="page-students">

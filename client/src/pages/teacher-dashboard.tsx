@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useCallback } from "react";
 
 interface Student {
   id: string;
@@ -46,11 +47,11 @@ export default function TeacherDashboard() {
     },
   });
 
-  const handleArchive = (student: Student) => {
+  const handleArchive = useCallback((student: Student) => {
     if (confirm(`Are you sure you want to archive ${student.name}?`)) {
       archiveMutation.mutate(student.id);
     }
-  };
+  }, [archiveMutation]);
 
   return (
     <div className="space-y-8" data-testid="page-teacher-dashboard">
