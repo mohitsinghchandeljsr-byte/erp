@@ -37,7 +37,6 @@ export function IDCardGenerator() {
 
   const handlePrint = () => {
     window.print();
-    console.log("ID Card print triggered");
   };
 
   return (

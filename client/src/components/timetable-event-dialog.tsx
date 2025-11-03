@@ -59,7 +59,6 @@ export function TimetableEventDialog() {
   });
 
   const onSubmit = (data: EventFormData) => {
-    console.log("Event data:", data);
     toast({
       title: "Event Created",
       description: `${data.title} has been added to the timetable.`,

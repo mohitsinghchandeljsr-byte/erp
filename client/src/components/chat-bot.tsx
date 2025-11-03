@@ -49,7 +49,6 @@ export function ChatBot() {
     }, 500);
 
     setInput("");
-    console.log("Message sent:", input);
   };
 
   if (!isOpen) {
