@@ -11,7 +11,13 @@ import { ChatBot } from "@/components/chat-bot";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import LoginPage from "@/pages/login";
 import TeacherDashboard from "@/pages/teacher-dashboard";
+import StudentsPage from "@/pages/students-page";
 import AttendancePage from "@/pages/attendance-page";
+import TimetablePage from "@/pages/timetable-page";
+import ExamsPage from "@/pages/exams-page";
+import MarksPage from "@/pages/marks-page";
+import EBooksPage from "@/pages/ebooks-page";
+import EventsPage from "@/pages/events-page";
 import StudentDashboard from "@/pages/student-dashboard";
 import NotFound from "@/pages/not-found";
 import { Bell, LogOut } from "lucide-react";
@@ -176,11 +182,65 @@ function Router() {
           </ProtectedRoute>
         )}
       </Route>
+      <Route path="/teacher/students">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <StudentsPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
       <Route path="/teacher/attendance">
         {() => (
           <ProtectedRoute requireRole="teacher">
             <TeacherLayout>
               <AttendancePage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/timetable">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <TimetablePage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/exams">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <ExamsPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/marks">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <MarksPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/ebooks">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <EBooksPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/events">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <EventsPage />
             </TeacherLayout>
           </ProtectedRoute>
         )}
