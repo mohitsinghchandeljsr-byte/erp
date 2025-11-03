@@ -24,18 +24,18 @@ export function MetricCard({
 }: MetricCardProps) {
   return (
     <Card className={cn("hover-elevate", className)} data-testid={`card-metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
-      <CardContent className="p-6">
+      <CardContent className="p-4">
         <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">
+          <div>
+            <p className="text-xs font-medium text-muted-foreground mb-1">
               {title}
             </p>
             <div className="flex items-baseline gap-2">
-              <h3 className="text-3xl font-bold tracking-tight" data-testid={`text-value-${title.toLowerCase().replace(/\s+/g, '-')}`}>{value}</h3>
+              <h3 className="text-2xl font-bold" data-testid={`text-value-${title.toLowerCase().replace(/\s+/g, '-')}`}>{value}</h3>
               {trend && (
                 <span
                   className={cn(
-                    "text-sm font-medium",
+                    "text-xs font-medium",
                     trend.positive ? "text-green-600" : "text-red-600"
                   )}
                 >
@@ -44,11 +44,11 @@ export function MetricCard({
               )}
             </div>
             {subtitle && (
-              <p className="text-xs text-muted-foreground">{subtitle}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
             )}
           </div>
-          <div className="rounded-full bg-primary/10 p-3">
-            <Icon className="h-5 w-5 text-primary" />
+          <div className="rounded-full bg-primary/10 p-2">
+            <Icon className="h-4 w-4 text-primary" />
           </div>
         </div>
       </CardContent>

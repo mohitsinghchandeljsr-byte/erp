@@ -54,23 +54,23 @@ export default function TeacherDashboard() {
   }, [archiveMutation]);
 
   return (
-    <div className="space-y-8" data-testid="page-teacher-dashboard">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-            <Users className="h-6 w-6" />
+    <div className="space-y-4" data-testid="page-teacher-dashboard">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <Users className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
-              Gaya College MBA Department • Academic Year 2024-2025
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <p className="text-xs text-muted-foreground">
+              Gaya College MBA • AY 2024-2025
             </p>
           </div>
         </div>
         <StudentCreateDialog />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard
           title="Total Students"
           value={students.length.toString()}
@@ -100,11 +100,8 @@ export default function TeacherDashboard() {
       </div>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between gap-2 pb-4">
-          <div>
-            <CardTitle className="text-xl">Recent Students</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1">Manage your student roster</p>
-          </div>
+        <CardHeader className="flex flex-row items-center justify-between gap-2 pb-3">
+          <CardTitle className="text-base">Recent Students</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           {isLoading ? (
@@ -124,12 +121,12 @@ export default function TeacherDashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Quick Actions</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-1.5">
             <AttendanceMarkingDialog />
             <Button variant="outline" className="w-full justify-start" data-testid="button-create-exam">
               <BookOpen className="h-4 w-4 mr-2" />
@@ -143,19 +140,19 @@ export default function TeacherDashboard() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">System Status</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">System Status</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between py-1">
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Database Backup</span>
               <span className="text-sm text-green-600 font-medium">2 hours ago</span>
             </div>
-            <div className="flex items-center justify-between py-1">
+            <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Bot Status</span>
               <span className="text-sm text-green-600 font-medium">Active</span>
             </div>
-            <div className="flex items-center justify-between py-1">
+            <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Storage Used</span>
               <span className="text-sm font-medium">245 MB / 10 GB</span>
             </div>
