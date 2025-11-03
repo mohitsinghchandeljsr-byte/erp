@@ -12,43 +12,43 @@
   --elevate-2: rgba(0,0,0, .08);
 
   --background: 0 0% 100%;
-  --foreground: 0 0% 10%;
-  --border: 0 0% 90%;
+  --foreground: 210 11% 15%;
+  --border: 214 32% 91%;
 
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 10%;
-  --card-border: 0 0% 90%;
+  --card-foreground: 210 11% 15%;
+  --card-border: 214 32% 91%;
 
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 0 0% 10%;
-  --sidebar-border: 0 0% 90%;
-  --sidebar-primary: 145 100% 35%;
+  --sidebar: 210 20% 98%;
+  --sidebar-foreground: 210 11% 15%;
+  --sidebar-border: 214 32% 91%;
+  --sidebar-primary: 142 76% 36%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 0 0% 95%;
-  --sidebar-accent-foreground: 0 0% 10%;
-  --sidebar-ring: 145 100% 35%;
+  --sidebar-accent: 210 20% 95%;
+  --sidebar-accent-foreground: 210 11% 15%;
+  --sidebar-ring: 142 76% 36%;
 
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 10%;
   --popover-border: 0 0% 90%;
 
-  --primary: 145 100% 35%;
+  --primary: 142 76% 36%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 0 0% 95%;
-  --secondary-foreground: 0 0% 10%;
+  --secondary: 210 20% 96%;
+  --secondary-foreground: 210 11% 15%;
 
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 45%;
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 47%;
 
-  --accent: 0 0% 96%;
-  --accent-foreground: 0 0% 10%;
+  --accent: 142 76% 96%;
+  --accent-foreground: 142 76% 36%;
 
   --destructive: 356.3033 90.5579% 54.3137%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 0 0% 90%;
-  --ring: 145 100% 35%;
+  --input: 214 32% 91%;
+  --ring: 142 76% 36%;
 
   --chart-1: 203.8863 88.2845% 53.1373%;
   --chart-2: 159.7826 100% 36.0784%;
@@ -60,14 +60,14 @@
   --font-serif: 'IBM Plex Sans', sans-serif;
   --font-mono: Menlo, monospace;
   --radius: 0.4rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 1px 2px -1px hsl(145, 100%, 35% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 1px 2px -1px hsl(145, 100%, 35% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 2px 4px -1px hsl(145, 100%, 35% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 4px 6px -1px hsl(145, 100%, 35% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 8px 10px -1px hsl(145, 100%, 35% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.03);
+  --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.06), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 

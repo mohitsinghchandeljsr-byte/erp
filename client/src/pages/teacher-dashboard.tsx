@@ -54,18 +54,13 @@ export default function TeacherDashboard() {
   }, [archiveMutation]);
 
   return (
-    <div className="space-y-4" data-testid="page-teacher-dashboard">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Users className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-xs text-muted-foreground">
-              Gaya College MBA • AY 2024-2025
-            </p>
-          </div>
+    <div className="space-y-6" data-testid="page-teacher-dashboard">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Gaya College MBA Department • Academic Year 2024-2025
+          </p>
         </div>
         <StudentCreateDialog />
       </div>

@@ -23,19 +23,19 @@ export function MetricCard({
   className,
 }: MetricCardProps) {
   return (
-    <Card className={cn("hover-elevate", className)} data-testid={`card-metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
-      <CardContent className="p-4">
+    <Card className={cn("hover-elevate border-border/40 shadow-sm", className)} data-testid={`card-metric-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+      <CardContent className="p-6">
         <div className="flex items-start justify-between">
-          <div>
-            <p className="text-xs font-medium text-muted-foreground mb-1">
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-muted-foreground">
               {title}
             </p>
             <div className="flex items-baseline gap-2">
-              <h3 className="text-2xl font-bold" data-testid={`text-value-${title.toLowerCase().replace(/\s+/g, '-')}`}>{value}</h3>
+              <h3 className="text-3xl font-bold tracking-tight text-foreground" data-testid={`text-value-${title.toLowerCase().replace(/\s+/g, '-')}`}>{value}</h3>
               {trend && (
                 <span
                   className={cn(
-                    "text-xs font-medium",
+                    "text-sm font-semibold",
                     trend.positive ? "text-green-600" : "text-red-600"
                   )}
                 >
@@ -44,11 +44,11 @@ export function MetricCard({
               )}
             </div>
             {subtitle && (
-              <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
+              <p className="text-sm text-muted-foreground">{subtitle}</p>
             )}
           </div>
-          <div className="rounded-full bg-primary/10 p-2">
-            <Icon className="h-4 w-4 text-primary" />
+          <div className="rounded-xl bg-primary/10 p-3">
+            <Icon className="h-6 w-6 text-primary" />
           </div>
         </div>
       </CardContent>
