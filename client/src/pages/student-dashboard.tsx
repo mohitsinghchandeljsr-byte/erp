@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AttendanceCalendar } from "@/components/attendance-calendar";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar, BookOpen, FileText, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import campusImage from "@assets/generated_images/College_campus_hero_image_b6bc2219.png";
+import { DashboardHero } from "@/components/dashboard-hero";
 
 export default function StudentDashboard() {
   // TODO: Remove mock data
@@ -18,27 +17,11 @@ export default function StudentDashboard() {
 
   return (
     <div className="space-y-6" data-testid="page-student-dashboard">
-      <div className="relative h-[400px] rounded-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30" />
-        <img
-          src={campusImage}
-          alt="Campus"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 flex flex-col justify-end p-8">
-          <div className="flex items-end gap-6">
-            <Avatar className="h-24 w-24 border-4 border-white">
-              <AvatarFallback className="text-2xl">RK</AvatarFallback>
-            </Avatar>
-            <div className="text-white pb-2">
-              <h1 className="text-4xl font-bold">Welcome back, Rajesh!</h1>
-              <p className="text-lg mt-2 opacity-90">
-                MBA 2024-2026 • Student ID: MBA2024001
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DashboardHero
+        name="Welcome back, Rajesh!"
+        subtitle="MBA 2024-2026 • Student ID: MBA2024001"
+        initials="RK"
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="hover-elevate">

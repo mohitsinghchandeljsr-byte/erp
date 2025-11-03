@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GraduationCap } from "lucide-react";
 import { useLocation } from "wouter";
-import campusImage from "@assets/generated_images/College_campus_hero_image_b6bc2219.png";
+import { HeroGraphic } from "@/components/hero-graphic";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -102,21 +102,18 @@ export default function LoginPage() {
         </Card>
       </div>
 
-      <div className="hidden lg:block lg:flex-1 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
-        <img
-          src={campusImage}
-          alt="Gaya College Campus"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute bottom-8 left-8 right-8 text-white">
-          <h2 className="text-4xl font-bold mb-4">
-            Welcome to Gaya College ERP
-          </h2>
-          <p className="text-lg opacity-90">
-            Comprehensive management system for the MBA department. Manage students,
-            attendance, exams, and resources all in one place.
-          </p>
+      <div className="hidden lg:flex lg:flex-1 items-center justify-center p-12 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+        <div className="max-w-2xl">
+          <HeroGraphic />
+          <div className="mt-8 text-center">
+            <h2 className="text-3xl font-bold mb-4">
+              Welcome to Gaya College ERP
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Comprehensive management system for the MBA department. Manage students,
+              attendance, exams, and resources all in one place.
+            </p>
+          </div>
         </div>
       </div>
     </div>
