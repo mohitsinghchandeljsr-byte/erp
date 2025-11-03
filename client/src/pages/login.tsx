@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GraduationCap } from "lucide-react";
 import { useLocation } from "wouter";
-import { HeroGraphic } from "@/components/hero-graphic";
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -22,9 +21,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="flex-1 flex items-center justify-center p-8 bg-background">
-        <Card className="w-full max-w-md" data-testid="card-login">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-background">
+      <div className="w-full max-w-md">
+        <Card className="w-full" data-testid="card-login">
           <CardHeader className="space-y-4 text-center">
             <div className="flex justify-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -100,21 +99,6 @@ export default function LoginPage() {
             </p>
           </CardContent>
         </Card>
-      </div>
-
-      <div className="hidden lg:flex lg:flex-1 items-center justify-center p-12 bg-gradient-to-br from-primary/5 via-background to-primary/10">
-        <div className="max-w-2xl">
-          <HeroGraphic />
-          <div className="mt-8 text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Welcome to Gaya College ERP
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Comprehensive management system for the MBA department. Manage students,
-              attendance, exams, and resources all in one place.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );
