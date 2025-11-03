@@ -22,17 +22,17 @@
   --sidebar: 0 0% 98%;
   --sidebar-foreground: 0 0% 10%;
   --sidebar-border: 0 0% 90%;
-  --sidebar-primary: 9 75% 61%;
+  --sidebar-primary: 145 100% 35%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 95%;
   --sidebar-accent-foreground: 0 0% 10%;
-  --sidebar-ring: 9 75% 61%;
+  --sidebar-ring: 145 100% 35%;
 
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 10%;
   --popover-border: 0 0% 90%;
 
-  --primary: 9 75% 61%;
+  --primary: 145 100% 35%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 95%;
@@ -48,7 +48,7 @@
   --destructive-foreground: 0 0% 100%;
 
   --input: 0 0% 90%;
-  --ring: 9 75% 61%;
+  --ring: 145 100% 35%;
 
   --chart-1: 203.8863 88.2845% 53.1373%;
   --chart-2: 159.7826 100% 36.0784%;
@@ -60,14 +60,14 @@
   --font-serif: 'Inter', sans-serif;
   --font-mono: Menlo, monospace;
   --radius: 0.4rem;
-  --shadow-2xs: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 1px 2px -1px hsl(9, 75%, 61% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 1px 2px -1px hsl(9, 75%, 61% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 2px 4px -1px hsl(9, 75%, 61% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 4px 6px -1px hsl(9, 75%, 61% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00), 0px 8px 10px -1px hsl(9, 75%, 61% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(9, 75%, 61% / 0.00);
+  --shadow-2xs: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 1px 2px -1px hsl(145, 100%, 35% / 0.00);
+  --shadow: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 1px 2px -1px hsl(145, 100%, 35% / 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 2px 4px -1px hsl(145, 100%, 35% / 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 4px 6px -1px hsl(145, 100%, 35% / 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00), 0px 8px 10px -1px hsl(145, 100%, 35% / 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(145, 100%, 35% / 0.00);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -113,17 +113,17 @@
   --sidebar: 20 14% 8%;
   --sidebar-foreground: 45 25% 85%;
   --sidebar-border: 20 14% 15%;
-  --sidebar-primary: 9 75% 61%;
+  --sidebar-primary: 145 100% 35%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 25 45% 20%;
   --sidebar-accent-foreground: 45 25% 85%;
-  --sidebar-ring: 9 75% 61%;
+  --sidebar-ring: 145 100% 35%;
 
   --popover: 20 14% 4%;
   --popover-foreground: 45 25% 91%;
   --popover-border: 20 14% 8%;
 
-  --primary: 9 75% 61%;
+  --primary: 145 100% 35%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 30 15% 52%;
@@ -139,7 +139,7 @@
   --destructive-foreground: 0 0% 100%;
 
   --input: 20 14% 18%;
-  --ring: 9 75% 61%;
+  --ring: 145 100% 35%;
 
   --chart-1: 203.8863 88.2845% 53.1373%;
   --chart-2: 159.7826 100% 36.0784%;
@@ -147,14 +147,14 @@
   --chart-4: 147.1429 78.5047% 41.9608%;
   --chart-5: 341.4894 75.2000% 50.9804%;
 
-  --shadow-2xs: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 1px 2px -1px hsl(9 75% 61% / 0.00);
-  --shadow: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 1px 2px -1px hsl(9 75% 61% / 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 2px 4px -1px hsl(9 75% 61% / 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 4px 6px -1px hsl(9 75% 61% / 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(9 75% 61% / 0.00), 0px 8px 10px -1px hsl(9 75% 61% / 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(9 75% 61% / 0.00);
+  --shadow-2xs: 0px 2px 0px 0px hsl(145 100% 35% / 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(145 100% 35% / 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(145 100% 35% / 0.00), 0px 1px 2px -1px hsl(145 100% 35% / 0.00);
+  --shadow: 0px 2px 0px 0px hsl(145 100% 35% / 0.00), 0px 1px 2px -1px hsl(145 100% 35% / 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(145 100% 35% / 0.00), 0px 2px 4px -1px hsl(145 100% 35% / 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(145 100% 35% / 0.00), 0px 4px 6px -1px hsl(145 100% 35% / 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(145 100% 35% / 0.00), 0px 8px 10px -1px hsl(145 100% 35% / 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(145 100% 35% / 0.00);
 
   --sidebar-primary-border: hsl(var(--sidebar-primary));
   --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
