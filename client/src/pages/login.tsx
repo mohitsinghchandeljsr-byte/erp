@@ -3,20 +3,28 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GraduationCap } from "lucide-react";
-import { useLocation } from "wouter";
+import { GraduationCap, Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
-  const [, setLocation] = useLocation();
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
-  const [role, setRole] = useState<"teacher" | "student" | null>(null);
+  const { login } = useAuth();
+  const { toast } = useToast();
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
-    console.log("Login attempt:", credentials, role);
-    if (role === "teacher") {
-      setLocation("/teacher");
-    } else if (role === "student") {
-      setLocation("/student");
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      await login(credentials.email, credentials.password);
+    } catch (error: any) {
+      toast({
+        title: "Login failed",
+        description: error.message || "Invalid credentials",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,37 +46,19 @@ export default function LoginPage() {
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex gap-2">
-              <Button
-                variant={role === "teacher" ? "default" : "outline"}
-                className="flex-1"
-                onClick={() => setRole("teacher")}
-                data-testid="button-select-teacher"
-              >
-                Teacher
-              </Button>
-              <Button
-                variant={role === "student" ? "default" : "outline"}
-                className="flex-1"
-                onClick={() => setRole("student")}
-                data-testid="button-select-student"
-              >
-                Student
-              </Button>
-            </div>
-
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="username">Username / Student ID</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  placeholder={role === "student" ? "MBA2024001" : "username"}
-                  value={credentials.username}
+                  id="email"
+                  type="email"
+                  placeholder="email@example.com"
+                  value={credentials.email}
                   onChange={(e) =>
-                    setCredentials({ ...credentials, username: e.target.value })
+                    setCredentials({ ...credentials, email: e.target.value })
                   }
-                  data-testid="input-username"
-                  className={role === "student" ? "font-mono" : ""}
+                  onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                  data-testid="input-email"
                 />
               </div>
               <div className="space-y-2">
@@ -80,6 +70,7 @@ export default function LoginPage() {
                   onChange={(e) =>
                     setCredentials({ ...credentials, password: e.target.value })
                   }
+                  onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                   data-testid="input-password"
                 />
               </div>
@@ -88,14 +79,15 @@ export default function LoginPage() {
             <Button
               className="w-full"
               onClick={handleLogin}
-              disabled={!role || !credentials.username || !credentials.password}
+              disabled={!credentials.email || !credentials.password || isLoading}
               data-testid="button-login"
             >
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">
-              For demo purposes, select a role and enter any credentials
+              Demo: teacher@gaya.edu / student@gaya.edu, password: password123
             </p>
           </CardContent>
         </Card>

@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,15 +8,25 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChatBot } from "@/components/chat-bot";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import LoginPage from "@/pages/login";
 import TeacherDashboard from "@/pages/teacher-dashboard";
 import StudentDashboard from "@/pages/student-dashboard";
 import NotFound from "@/pages/not-found";
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function TeacherLayout({ children }: { children: React.ReactNode }) {
+  const { user, logout } = useAuth();
   const style = {
     "--sidebar-width": "20rem",
     "--sidebar-width-icon": "4rem",
@@ -34,9 +44,28 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
                 <Bell className="h-5 w-5" />
               </Button>
               <ThemeToggle />
-              <Avatar className="h-9 w-9">
-                <AvatarFallback>T</AvatarFallback>
-              </Avatar>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback>{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user?.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} data-testid="button-logout">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </header>
           <main className="flex-1 overflow-auto p-8">
@@ -50,6 +79,7 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
 }
 
 function StudentLayout({ children }: { children: React.ReactNode }) {
+  const { user, logout } = useAuth();
   const style = {
     "--sidebar-width": "20rem",
     "--sidebar-width-icon": "4rem",
@@ -67,9 +97,28 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
                 <Bell className="h-5 w-5" />
               </Button>
               <ThemeToggle />
-              <Avatar className="h-9 w-9">
-                <AvatarFallback>RK</AvatarFallback>
-              </Avatar>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback>{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user?.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} data-testid="button-logout">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </header>
           <main className="flex-1 overflow-auto p-8">
@@ -82,22 +131,57 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ProtectedRoute({ children, requireRole }: { children: React.ReactNode; requireRole: "teacher" | "student" }) {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
+  if (!user) {
+    return <Redirect to="/" />;
+  }
+
+  if (user.role !== requireRole) {
+    return <Redirect to={user.role === "teacher" ? "/teacher" : "/student"} />;
+  }
+
+  return <>{children}</>;
+}
+
 function Router() {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+
   return (
     <Switch>
-      <Route path="/" component={LoginPage} />
+      <Route path="/">
+        {() => {
+          if (user) {
+            return <Redirect to={user.role === "teacher" ? "/teacher" : "/student"} />;
+          }
+          return <LoginPage />;
+        }}
+      </Route>
       <Route path="/teacher">
         {() => (
-          <TeacherLayout>
-            <TeacherDashboard />
-          </TeacherLayout>
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <TeacherDashboard />
+            </TeacherLayout>
+          </ProtectedRoute>
         )}
       </Route>
       <Route path="/student">
         {() => (
-          <StudentLayout>
-            <StudentDashboard />
-          </StudentLayout>
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <StudentDashboard />
+            </StudentLayout>
+          </ProtectedRoute>
         )}
       </Route>
       <Route component={NotFound} />
@@ -108,12 +192,14 @@ function Router() {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider defaultTheme="light">
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

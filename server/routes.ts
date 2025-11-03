@@ -1,13 +1,16 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.routes";
+import studentsRoutes from "./routes/students.routes";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
+  // Middleware
+  app.use(cookieParser());
 
-  // use storage to perform CRUD operations on the storage interface
-  // e.g. storage.insertUser(user) or storage.getUserByUsername(username)
+  // Routes
+  app.use("/api/auth", authRoutes);
+  app.use("/api/students", studentsRoutes);
 
   const httpServer = createServer(app);
 
