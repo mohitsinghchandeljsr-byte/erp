@@ -1,40 +1,55 @@
 import { MetricCard } from "@/components/metric-card";
 import { StudentTable } from "@/components/student-table";
-import { Users, ClipboardCheck, BookOpen, TrendingUp, Plus } from "lucide-react";
+import { StudentCreateDialog } from "@/components/student-create-dialog";
+import { Users, ClipboardCheck, BookOpen, TrendingUp, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+
+interface Student {
+  id: string;
+  studentId: string;
+  name: string;
+  email: string;
+  batch: string;
+  program: string;
+  status: "active" | "archived";
+}
 
 export default function TeacherDashboard() {
-  // TODO: Remove mock data
-  const mockStudents = [
-    {
-      id: "1",
-      studentId: "MBA2024001",
-      name: "Rajesh Kumar",
-      email: "rajesh.kumar@student.gaya.edu",
-      batch: "2024-2026",
-      program: "MBA",
-      status: "active" as const,
+  const { toast } = useToast();
+  
+  const { data: students = [], isLoading } = useQuery<Student[]>({
+    queryKey: ["/api/students"],
+  });
+
+  const archiveMutation = useMutation({
+    mutationFn: async (studentId: string) => {
+      await apiRequest("DELETE", `/api/students/${studentId}`);
     },
-    {
-      id: "2",
-      studentId: "MBA2024002",
-      name: "Priya Sharma",
-      email: "priya.sharma@student.gaya.edu",
-      batch: "2024-2026",
-      program: "MBA",
-      status: "active" as const,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/students"] });
+      toast({
+        title: "Success",
+        description: "Student archived successfully",
+      });
     },
-    {
-      id: "3",
-      studentId: "MBA2023045",
-      name: "Amit Patel",
-      email: "amit.patel@student.gaya.edu",
-      batch: "2023-2025",
-      program: "MBA",
-      status: "active" as const,
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to archive student",
+        variant: "destructive",
+      });
     },
-  ];
+  });
+
+  const handleArchive = (student: Student) => {
+    if (confirm(`Are you sure you want to archive ${student.name}?`)) {
+      archiveMutation.mutate(student.id);
+    }
+  };
 
   return (
     <div className="space-y-6" data-testid="page-teacher-dashboard">
@@ -45,19 +60,15 @@ export default function TeacherDashboard() {
             Overview of your department's key metrics
           </p>
         </div>
-        <Button data-testid="button-add-student">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Student
-        </Button>
+        <StudentCreateDialog />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title="Total Students"
-          value="246"
+          value={students.length.toString()}
           subtitle="Active enrollments"
           icon={Users}
-          trend={{ value: 12, positive: true }}
         />
         <MetricCard
           title="Attendance Rate"
@@ -83,18 +94,26 @@ export default function TeacherDashboard() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between gap-2">
-          <CardTitle>Recent Students</CardTitle>
+          <CardTitle>Students</CardTitle>
           <Button variant="outline" size="sm">
             View All
           </Button>
         </CardHeader>
         <CardContent>
-          <StudentTable
-            students={mockStudents}
-            onEdit={(student) => console.log("Edit:", student)}
-            onDelete={(student) => console.log("Delete:", student)}
-            onArchive={(student) => console.log("Archive:", student)}
-          />
+          {isLoading ? (
+            <div className="text-center py-8 text-muted-foreground">Loading students...</div>
+          ) : students.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No students found. Create your first student to get started.
+            </div>
+          ) : (
+            <StudentTable
+              students={students}
+              onEdit={(student) => console.log("Edit:", student)}
+              onDelete={(student) => console.log("Delete:", student)}
+              onArchive={handleArchive}
+            />
+          )}
         </CardContent>
       </Card>
 
@@ -113,7 +132,7 @@ export default function TeacherDashboard() {
               Create Exam
             </Button>
             <Button variant="outline" className="w-full justify-start" data-testid="button-upload-ebook">
-              <Plus className="h-4 w-4 mr-2" />
+              <Upload className="h-4 w-4 mr-2" />
               Upload E-Book
             </Button>
           </CardContent>

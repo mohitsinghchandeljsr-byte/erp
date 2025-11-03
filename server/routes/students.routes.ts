@@ -3,6 +3,8 @@ import { db } from "../db";
 import { students, users, insertStudentSchema } from "@shared/schema";
 import { authenticate, requireRole, AuthRequest } from "../middleware/auth";
 import { eq, and } from "drizzle-orm";
+import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 const router = Router();
 
@@ -71,19 +73,58 @@ router.get("/:id", async (req: AuthRequest, res) => {
   }
 });
 
+const createStudentSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+  name: z.string().min(1),
+  studentId: z.string().min(1),
+  program: z.string().min(1),
+  batch: z.string().min(1),
+  phone: z.string().optional(),
+});
+
 router.post("/", requireRole("teacher"), async (req: AuthRequest, res) => {
   try {
-    const data = insertStudentSchema.parse(req.body);
+    const data = createStudentSchema.parse(req.body);
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     
-    const [newStudent] = await db
+    const [user] = await db
+      .insert(users)
+      .values({
+        email: data.email,
+        password: hashedPassword,
+        role: "student",
+        name: data.name,
+        studentId: data.studentId,
+      })
+      .returning();
+
+    const [student] = await db
       .insert(students)
       .values({
-        ...data,
+        userId: user.id,
+        studentId: data.studentId,
+        program: data.program,
+        batch: data.batch,
+        phone: data.phone,
+        status: "active",
+        enrollmentDate: new Date(),
         createdBy: req.user!.id,
       })
       .returning();
 
-    res.status(201).json(newStudent);
+    res.status(201).json({
+      id: student.id,
+      userId: user.id,
+      studentId: student.studentId,
+      name: user.name,
+      email: user.email,
+      program: student.program,
+      batch: student.batch,
+      phone: student.phone,
+      status: student.status,
+      enrollmentDate: student.enrollmentDate,
+    });
   } catch (error: any) {
     res.status(400).json({ message: error.message || "Failed to create student" });
   }
