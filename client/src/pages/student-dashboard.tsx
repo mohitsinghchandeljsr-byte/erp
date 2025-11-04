@@ -69,7 +69,7 @@ export default function StudentDashboard() {
             ].map((cls, i) => (
               <div key={i} className="flex items-start justify-between p-3 border rounded-md hover-elevate">
                 <div className="space-y-1">
-                  <h4 className="font-medium text-sm">{cls.subject}</h4>
+                  <h4 className="font-medium text-sm" style={{ fontFamily: "'Fira Code', monospace" }}>{cls.subject}</h4>
                   <p className="text-xs text-muted-foreground">{cls.time}</p>
                   <p className="text-xs text-muted-foreground">Room {cls.room}</p>
                 </div>
@@ -96,7 +96,7 @@ export default function StudentDashboard() {
             ].map((exam, i) => (
               <div key={i} className="flex items-center justify-between p-3 border rounded-md">
                 <div>
-                  <h4 className="font-medium text-sm">{exam.subject}</h4>
+                  <h4 className="font-medium text-sm" style={{ fontFamily: "'Fira Code', monospace" }}>{exam.subject}</h4>
                   <p className="text-xs text-muted-foreground">
                     {exam.marks} / {exam.total}
                   </p>
