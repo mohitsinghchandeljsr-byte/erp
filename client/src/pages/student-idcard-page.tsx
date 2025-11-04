@@ -2,13 +2,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth-context";
 import { CreditCard, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import QRCode from "qrcode";
 import { useEffect, useRef } from "react";
+import { StudentProfileEditDialog } from "@/components/student-profile-edit-dialog";
+import { useQuery } from "@tanstack/react-query";
 
 export default function StudentIDCardPage() {
   const { user } = useAuth();
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  const { data: studentData } = useQuery<any>({
+    queryKey: ["/api/students", user?.id],
+    queryFn: async () => {
+      const students = await fetch("/api/students", { credentials: "include" }).then(r => r.json());
+      const student = students.find((s: any) => s.email === user?.email);
+      return student;
+    },
+    enabled: !!user,
+  });
 
   useEffect(() => {
     if (qrCanvasRef.current && user) {
@@ -37,10 +49,13 @@ export default function StudentIDCardPage() {
             </p>
           </div>
         </div>
-        <Button data-testid="button-download-id">
-          <Download className="mr-2 h-4 w-4" />
-          Download
-        </Button>
+        <div className="flex gap-2">
+          <StudentProfileEditDialog />
+          <Button data-testid="button-download-id">
+            <Download className="mr-2 h-4 w-4" />
+            Download
+          </Button>
+        </div>
       </div>
 
       <div className="max-w-2xl mx-auto">
@@ -56,12 +71,16 @@ export default function StudentIDCardPage() {
               <div className="md:col-span-2 space-y-4">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-20 w-20">
-                    <AvatarFallback className="text-2xl">
-                      {user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}
-                    </AvatarFallback>
+                    {studentData?.photoUrl ? (
+                      <AvatarImage src={studentData.photoUrl} />
+                    ) : (
+                      <AvatarFallback className="text-2xl">
+                        {user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <div>
-                    <h2 className="text-2xl font-bold" data-testid="text-student-name">{user?.name}</h2>
+                    <h2 className="text-2xl font-bold" data-testid="text-student-name">{studentData?.name || user?.name}</h2>
                     <p className="text-muted-foreground">MBA Student</p>
                   </div>
                 </div>
