@@ -56,9 +56,9 @@
   --chart-4: 147.1429 78.5047% 41.9608%;
   --chart-5: 341.4894 75.2000% 50.9804%;
 
-  --font-sans: 'IBM Plex Sans', sans-serif;
-  --font-serif: 'IBM Plex Sans', sans-serif;
-  --font-mono: Menlo, monospace;
+  --font-sans: 'Fira Code', monospace;
+  --font-serif: 'Fira Code', monospace;
+  --font-mono: 'Fira Code', monospace;
   --radius: 0.4rem;
   --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.03);
   --shadow-xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);

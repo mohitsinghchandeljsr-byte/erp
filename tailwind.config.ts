@@ -83,9 +83,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "Inter", "sans-serif"],
-        serif: ["var(--font-serif)", "Inter", "sans-serif"],
-        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+        sans: ["var(--font-sans)", "Fira Code", "monospace"],
+        serif: ["var(--font-serif)", "Fira Code", "monospace"],
+        mono: ["var(--font-mono)", "Fira Code", "monospace"],
       },
       keyframes: {
         "accordion-down": {
