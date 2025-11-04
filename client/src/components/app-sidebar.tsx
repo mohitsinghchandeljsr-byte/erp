@@ -163,12 +163,12 @@ export function AppSidebar({ role }: AppSidebarProps) {
         <SidebarContent className="px-3">
           {Object.entries(groupedItems).map(([group, items]) => (
             <SidebarGroup key={group} className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2 mb-2">
-              <SidebarGroupLabel className="text-xs uppercase text-sidebar px-0">{group}</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-xs uppercase text-sidebar-foreground px-0">{group}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={location === item.url}>
+                      <SidebarMenuButton asChild isActive={location === item.url} className="text-sidebar-foreground hover:text-sidebar-foreground">
                         <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
@@ -204,7 +204,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
             <SidebarMenu>
               {studentMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={location === item.url}>
+                  <SidebarMenuButton asChild isActive={location === item.url} className="text-sidebar-foreground hover:text-sidebar-foreground">
                     <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
