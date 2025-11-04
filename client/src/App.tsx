@@ -39,7 +39,7 @@ import {
 function TeacherLayout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const style = {
-    "--sidebar-width": "20rem",
+    "--sidebar-width": "14rem",
     "--sidebar-width-icon": "4rem",
   };
 
@@ -114,7 +114,7 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
 function StudentLayout({ children }: { children: React.ReactNode }) {
   const { user, logout } = useAuth();
   const style = {
-    "--sidebar-width": "20rem",
+    "--sidebar-width": "14rem",
     "--sidebar-width-icon": "4rem",
   };
 
