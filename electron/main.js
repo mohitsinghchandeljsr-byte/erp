@@ -16,8 +16,8 @@ function createWindow() {
       enableRemoteModule: false,
       webSecurity: true,
     },
-    backgroundColor: '#ffffff',
-    title: 'Gaya College ERP',
+    backgroundColor: '#D9DDDC',
+    title: 'CARVI(cu) - College ERP System',
     autoHideMenuBar: false,
   });
 
@@ -70,9 +70,9 @@ function createWindow() {
             const { dialog } = require('electron');
             dialog.showMessageBox(mainWindow, {
               type: 'info',
-              title: 'Gaya College ERP',
-              message: 'Gaya College MBA Department ERP System',
-              detail: 'Version 1.0.0\nAcademic Year 2024-2025',
+              title: 'CARVI(cu)',
+              message: 'CARVI(cu) - College ERP System',
+              detail: 'Version 1.0.0\nGaya College MBA Department\nEnterprise Resource Planning System',
             });
           },
         },
@@ -85,14 +85,15 @@ function createWindow() {
 
   // Load the app
   const isDev = process.env.NODE_ENV === 'development';
+  const serverUrl = process.env.SERVER_URL || 'https://YOUR_REPLIT_URL.replit.app';
   
   if (isDev) {
     // In development, load from the dev server
     mainWindow.loadURL('http://localhost:5000');
     mainWindow.webContents.openDevTools();
   } else {
-    // In production, load from the built files
-    mainWindow.loadURL(`file://${path.join(__dirname, '../dist/index.html')}`);
+    // In production, connect to the deployed Replit server
+    mainWindow.loadURL(serverUrl);
   }
 
   mainWindow.on('closed', () => {

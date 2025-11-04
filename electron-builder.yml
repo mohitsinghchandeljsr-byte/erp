@@ -1,0 +1,36 @@
+appId: com.gayacollege.carvi.erp
+productName: CARVI(cu)
+copyright: Copyright © 2024 Gaya College MBA Department
+
+directories:
+  buildResources: electron
+  output: dist-electron
+
+files:
+  - electron/**/*
+  - "!electron/node_modules"
+  - "!electron/dist"
+
+win:
+  target:
+    - target: msi
+      arch:
+        - x64
+  icon: electron/icon.png
+  artifactName: "${productName}-Setup-${version}.${ext}"
+
+msi:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "CARVI(cu) ERP"
+
+nsis:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "CARVI(cu) ERP"
