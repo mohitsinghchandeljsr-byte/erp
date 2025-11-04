@@ -28,7 +28,7 @@ export function CleanMetricCard({
               <Icon className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">
+              <p className="text-sm font-bold text-muted-foreground" style={{ fontFamily: "'Fira Code', monospace" }}>
                 {title}
               </p>
               <div className="flex items-baseline gap-2 mt-1">
