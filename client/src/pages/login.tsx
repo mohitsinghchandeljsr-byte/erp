@@ -8,22 +8,17 @@ import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 
-type Setting = {
-  key: string;
-  value: string;
-};
-
 export default function LoginPage() {
   const { login } = useAuth();
   const { toast } = useToast();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: settings = [] } = useQuery<Setting[]>({
+  const { data: settings = {} } = useQuery<Record<string, string>>({
     queryKey: ["/api/settings"],
   });
 
-  const collegeName = settings.find((s) => s.key === "college_name")?.value || "CARVI(cu)";
+  const collegeName = settings.collegeName || "CARVI(cu)";
 
   const handleLogin = async () => {
     setIsLoading(true);
