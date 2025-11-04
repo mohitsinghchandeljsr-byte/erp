@@ -22,6 +22,8 @@ const MarksPage = lazy(() => import("@/pages/marks-page"));
 const EBooksPage = lazy(() => import("@/pages/ebooks-page"));
 const EventsPage = lazy(() => import("@/pages/events-page"));
 const StudentDashboard = lazy(() => import("@/pages/student-dashboard"));
+const StudentIDCardPage = lazy(() => import("@/pages/student-idcard-page"));
+const StudentNotesPage = lazy(() => import("@/pages/student-notes-page"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 import { Bell, LogOut, Search, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -317,6 +319,60 @@ function Router() {
           <ProtectedRoute requireRole="student">
             <StudentLayout>
               <AttendancePage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/timetable">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <TimetablePage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/exams">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <ExamsPage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/marks">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <MarksPage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/ebooks">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <EBooksPage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/notes">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <StudentNotesPage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/idcard">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <StudentIDCardPage />
             </StudentLayout>
           </ProtectedRoute>
         )}
