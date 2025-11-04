@@ -163,7 +163,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
         <SidebarContent className="px-3">
           {Object.entries(groupedItems).map(([group, items]) => (
             <SidebarGroup key={group} className="mb-4">
-              <SidebarGroupLabel className="text-xs uppercase text-white px-2 mb-2">{group}</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-xs uppercase text-white px-2 mb-2" style={{ fontFamily: "'Fira Code', monospace" }}>{group}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
@@ -171,7 +171,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
                       <SidebarMenuButton asChild isActive={location === item.url} className="text-white hover:bg-white/10">
                         <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                           <item.icon className="h-4 w-4" />
-                          <span>{item.title}</span>
+                          <span style={{ fontFamily: "'Fira Code', monospace" }}>{item.title}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
