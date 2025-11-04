@@ -148,7 +148,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
   const { data: settings = {} } = useQuery<Record<string, string>>({
     queryKey: ["/api/settings"],
   });
-  const collegeName = settings.collegeName || "Gaya College";
+  const collegeName = settings.collegeName || "CARVI(cu)";
 
   if (role === "teacher") {
     const groupedItems = teacherMenuItems.reduce((acc, item) => {

@@ -6,12 +6,24 @@ import { Label } from "@/components/ui/label";
 import { GraduationCap, Loader2 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+
+type Setting = {
+  key: string;
+  value: string;
+};
 
 export default function LoginPage() {
   const { login } = useAuth();
   const { toast } = useToast();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: settings = [] } = useQuery<Setting[]>({
+    queryKey: ["/api/settings"],
+  });
+
+  const collegeName = settings.find((s) => s.key === "college_name")?.value || "CARVI(cu)";
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -39,7 +51,7 @@ export default function LoginPage() {
               </div>
             </div>
             <div>
-              <CardTitle className="text-2xl">Gaya College</CardTitle>
+              <CardTitle className="text-2xl" data-testid="text-college-name">{collegeName}</CardTitle>
               <p className="text-sm text-muted-foreground mt-2">
                 MBA Department ERP System
               </p>

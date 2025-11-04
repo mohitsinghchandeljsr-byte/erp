@@ -141,7 +141,7 @@ export function IDCardGenerator() {
               )}
             </div>
             <div className="absolute bottom-2 left-6 text-xs font-semibold text-primary">
-              Gaya College MBA
+              CARVI(cu) MBA
             </div>
           </div>
         </CardContent>

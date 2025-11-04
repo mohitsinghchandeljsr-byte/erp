@@ -20,7 +20,7 @@ export default function SettingsPage() {
     if (settings.collegeName) {
       setCollegeName(settings.collegeName);
     } else {
-      setCollegeName("Gaya College");
+      setCollegeName("CARVI(cu)");
     }
   }, [settings]);
 

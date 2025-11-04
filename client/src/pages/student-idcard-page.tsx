@@ -25,7 +25,7 @@ export default function StudentIDCardPage() {
     queryKey: ["/api/settings"],
   });
 
-  const collegeName = settings.collegeName || "Gaya College";
+  const collegeName = settings.collegeName || "CARVI(cu)";
 
   useEffect(() => {
     if (qrCanvasRef.current && user) {
@@ -125,7 +125,7 @@ export default function StudentIDCardPage() {
 
             <div className="mt-6 pt-6 border-t">
               <p className="text-xs text-muted-foreground text-center">
-                This card is the property of Gaya College. If found, please return to the administration office.
+                This card is the property of CARVI(cu). If found, please return to the administration office.
               </p>
             </div>
           </CardContent>
