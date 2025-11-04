@@ -2,11 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Upload, Search, Download } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { BookOpen, Upload, Search, Download, Eye } from "lucide-react";
 import { useState } from "react";
 
 export default function EBooksPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewingBook, setViewingBook] = useState<typeof ebooks[0] | null>(null);
 
   const ebooks = [
     {
@@ -17,6 +19,7 @@ export default function EBooksPage() {
       size: "24.5 MB",
       pages: 856,
       uploadedBy: "Dr. Priya Sharma",
+      pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     },
     {
       id: 2,
@@ -26,6 +29,7 @@ export default function EBooksPage() {
       size: "18.2 MB",
       pages: 642,
       uploadedBy: "Dr. Priya Sharma",
+      pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     },
     {
       id: 3,
@@ -35,6 +39,7 @@ export default function EBooksPage() {
       size: "15.8 MB",
       pages: 528,
       uploadedBy: "Dr. Priya Sharma",
+      pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     },
     {
       id: 4,
@@ -44,6 +49,7 @@ export default function EBooksPage() {
       size: "20.1 MB",
       pages: 712,
       uploadedBy: "Dr. Priya Sharma",
+      pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
     },
   ];
 
@@ -113,15 +119,51 @@ export default function EBooksPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">Uploaded by {book.uploadedBy}</span>
-                <Button variant="outline" size="sm">
-                  <Download className="mr-2 h-3 w-3" />
-                  Download
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setViewingBook(book)}
+                    data-testid={`button-view-${book.id}`}
+                  >
+                    <Eye className="mr-2 h-3 w-3" />
+                    View
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    data-testid={`button-download-${book.id}`}
+                  >
+                    <Download className="mr-2 h-3 w-3" />
+                    Download
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
+
+      <Dialog open={!!viewingBook} onOpenChange={() => setViewingBook(null)}>
+        <DialogContent className="max-w-5xl h-[90vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BookOpen className="h-5 w-5" />
+              {viewingBook?.title}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-hidden rounded-lg border">
+            {viewingBook && (
+              <iframe
+                src={viewingBook.pdfUrl}
+                className="w-full h-full"
+                title={viewingBook.title}
+                style={{ minHeight: "calc(90vh - 120px)" }}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
