@@ -10,6 +10,7 @@ import settingsRoutes from "./routes/settings.routes";
 import eventsRoutes from "./routes/events.routes";
 import syllabusRoutes from "./routes/syllabus.routes";
 import ebooksRoutes from "./routes/ebooks.routes";
+import downloadsRoutes from "./routes/downloads.routes";
 import { ObjectStorageService } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -26,6 +27,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/events", eventsRoutes);
   app.use("/api/syllabus", syllabusRoutes);
   app.use("/api/ebooks", ebooksRoutes);
+  app.use("/api/downloads", downloadsRoutes);
 
   // Serve public object storage files
   app.get("/public-objects/:filePath(*)", async (req, res) => {

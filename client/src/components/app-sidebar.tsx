@@ -12,6 +12,7 @@ import {
   CreditCard,
   CalendarDays,
   Settings,
+  Download,
 } from "lucide-react";
 import {
   Sidebar,
@@ -94,6 +95,12 @@ const teacherMenuItems = [
     icon: Settings,
     group: "System",
   },
+  {
+    title: "Downloads",
+    url: "/teacher/downloads",
+    icon: Download,
+    group: "System",
+  },
 ];
 
 const studentMenuItems = [
@@ -136,6 +143,11 @@ const studentMenuItems = [
     title: "ID Card",
     url: "/student/idcard",
     icon: CreditCard,
+  },
+  {
+    title: "Downloads",
+    url: "/student/downloads",
+    icon: Download,
   },
 ];
 

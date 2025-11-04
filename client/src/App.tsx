@@ -22,6 +22,7 @@ const MarksPage = lazy(() => import("@/pages/marks-page"));
 const EBooksPage = lazy(() => import("@/pages/ebooks-page"));
 const SyllabusPage = lazy(() => import("@/pages/syllabus-page"));
 const EventsPage = lazy(() => import("@/pages/events-page"));
+const DownloadsPage = lazy(() => import("@/pages/downloads-page"));
 const StudentDashboard = lazy(() => import("@/pages/student-dashboard"));
 const StudentIDCardPage = lazy(() => import("@/pages/student-idcard-page"));
 const StudentNotesPage = lazy(() => import("@/pages/student-notes-page"));
@@ -325,6 +326,15 @@ function Router() {
           </ProtectedRoute>
         )}
       </Route>
+      <Route path="/teacher/downloads">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <DownloadsPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
       <Route path="/student">
         {() => (
           <ProtectedRoute requireRole="student">
@@ -393,6 +403,15 @@ function Router() {
           <ProtectedRoute requireRole="student">
             <StudentLayout>
               <StudentIDCardPage />
+            </StudentLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/student/downloads">
+        {() => (
+          <ProtectedRoute requireRole="student">
+            <StudentLayout>
+              <DownloadsPage />
             </StudentLayout>
           </ProtectedRoute>
         )}
