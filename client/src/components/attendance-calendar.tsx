@@ -41,7 +41,7 @@ export function AttendanceCalendar({ month, records, percentage }: AttendanceCal
     <Card data-testid="card-attendance-calendar">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>{format(month, "MMMM yyyy")}</CardTitle>
+          <CardTitle style={{ fontFamily: "'Fira Code', monospace" }}>{format(month, "MMMM yyyy")}</CardTitle>
           <Badge variant={percentage >= 75 ? "default" : "destructive"} data-testid="badge-attendance-percentage">
             {percentage}%
           </Badge>
