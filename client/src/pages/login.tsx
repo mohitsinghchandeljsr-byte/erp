@@ -39,23 +39,23 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-8 bg-background">
       <div className="w-full max-w-md">
         <Card className="w-full" data-testid="card-login">
-          <CardHeader className="space-y-4 text-center">
+          <CardHeader className="space-y-4 text-center" style={{ backgroundColor: '#222021' }}>
             <div className="flex justify-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <GraduationCap className="h-10 w-10" />
               </div>
             </div>
             <div>
-              <CardTitle className="text-2xl" data-testid="text-college-name">{collegeName}</CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">
+              <CardTitle className="text-2xl text-white" data-testid="text-college-name">{collegeName}</CardTitle>
+              <p className="text-sm text-white/70 mt-2">
                 MBA Department ERP System
               </p>
             </div>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6" style={{ backgroundColor: '#222021' }}>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-white">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -66,10 +66,11 @@ export default function LoginPage() {
                   }
                   onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                   data-testid="input-email"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-white">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -79,6 +80,7 @@ export default function LoginPage() {
                   }
                   onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                   data-testid="input-password"
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
                 />
               </div>
             </div>
@@ -93,7 +95,7 @@ export default function LoginPage() {
               Sign In
             </Button>
 
-            <p className="text-xs text-center text-muted-foreground">
+            <p className="text-xs text-center text-white/70">
               Demo: teacher@gaya.edu / student@gaya.edu, password: password123
             </p>
           </CardContent>
