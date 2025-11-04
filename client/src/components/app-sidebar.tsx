@@ -160,10 +160,10 @@ export function AppSidebar({ role }: AppSidebarProps) {
             </div>
           </div>
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="px-3">
           {Object.entries(groupedItems).map(([group, items]) => (
-            <SidebarGroup key={group}>
-              <SidebarGroupLabel className="text-xs uppercase text-muted-foreground">{group}</SidebarGroupLabel>
+            <SidebarGroup key={group} className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2 mb-2">
+              <SidebarGroupLabel className="text-xs uppercase text-sidebar px-0">{group}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
@@ -198,8 +198,8 @@ export function AppSidebar({ role }: AppSidebarProps) {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
+      <SidebarContent className="px-3">
+        <SidebarGroup className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2">
           <SidebarGroupContent>
             <SidebarMenu>
               {studentMenuItems.map((item) => (
