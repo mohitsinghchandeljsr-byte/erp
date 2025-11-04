@@ -1,10 +1,12 @@
-import { GradientMetricCard } from "@/components/gradient-metric-card";
+import { CleanMetricCard } from "@/components/clean-metric-card";
+import { WelcomeCard } from "@/components/welcome-card";
+import { ShortcutSection } from "@/components/shortcut-section";
 import { ActivityFeed } from "@/components/activity-feed";
 import { PerformanceChart } from "@/components/performance-chart";
 import { StudentTable } from "@/components/student-table";
 import { StudentCreateDialog } from "@/components/student-create-dialog";
 import { AttendanceMarkingDialog } from "@/components/attendance-marking-dialog";
-import { Users, ClipboardCheck, BookOpen, TrendingUp, Upload, Sparkles } from "lucide-react";
+import { Users, ClipboardCheck, BookOpen, TrendingUp, Upload, GraduationCap, Calendar, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -55,57 +57,59 @@ export default function TeacherDashboard() {
     }
   }, [archiveMutation]);
 
+  const welcomeItems = [
+    { id: "student", label: "Create your first student", completed: students.length > 0 },
+    { id: "attendance", label: "Mark attendance for a class", completed: false },
+    { id: "timetable", label: "Set up class timetable", completed: false },
+  ];
+
+  const shortcuts = [
+    { id: "students", title: "Students", url: "/teacher/students" },
+    { id: "attendance", title: "Attendance", url: "/teacher/attendance" },
+    { id: "timetable", title: "Timetable", url: "/teacher/timetable" },
+    { id: "exams", title: "Exams", url: "/teacher/exams" },
+    { id: "marks", title: "Marks", url: "/teacher/marks" },
+  ];
+
   return (
     <div className="space-y-6" data-testid="page-teacher-dashboard">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-green-600 shadow-lg">
-            <Sparkles className="h-6 w-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-              Dashboard
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Gaya College MBA Department • Academic Year 2024-2025
-            </p>
-          </div>
-        </div>
-        <StudentCreateDialog />
-      </div>
+      <WelcomeCard
+        title="Let's begin your journey with ERP"
+        description="Student Management, Attendance, Timetable and more"
+        items={welcomeItems}
+        onDismiss={() => console.log("Dismissed")}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <GradientMetricCard
+        <CleanMetricCard
           title="Total Students"
           value={students.length.toString()}
           subtitle="Active enrollments"
           icon={Users}
-          gradient="bg-gradient-to-br from-blue-500 to-blue-600"
         />
-        <GradientMetricCard
+        <CleanMetricCard
           title="Attendance"
           value="87.5%"
           subtitle="This month"
           icon={ClipboardCheck}
           trend={{ value: 3, positive: true }}
-          gradient="bg-gradient-to-br from-green-500 to-green-600"
         />
-        <GradientMetricCard
+        <CleanMetricCard
           title="E-Books"
           value="42"
           subtitle="Resources"
           icon={BookOpen}
-          gradient="bg-gradient-to-br from-purple-500 to-purple-600"
         />
-        <GradientMetricCard
+        <CleanMetricCard
           title="Avg Marks"
           value="78.2"
           subtitle="Performance"
           icon={TrendingUp}
           trend={{ value: 5, positive: false }}
-          gradient="bg-gradient-to-br from-orange-500 to-orange-600"
         />
       </div>
+
+      <ShortcutSection title="Your Shortcuts" shortcuts={shortcuts} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2">
@@ -114,9 +118,10 @@ export default function TeacherDashboard() {
         <ActivityFeed />
       </div>
 
-      <Card className="shadow-sm border-border/40">
+      <Card className="border shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-3">
           <CardTitle className="text-lg font-semibold">Recent Students</CardTitle>
+          <StudentCreateDialog />
         </CardHeader>
         <CardContent className="p-0">
           {isLoading ? (
@@ -136,8 +141,34 @@ export default function TeacherDashboard() {
         </CardContent>
       </Card>
 
+      <Card className="border shadow-sm">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold">Reports & Masters</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="p-4 border rounded-md hover-elevate active-elevate-2 cursor-pointer">
+              <Users className="h-5 w-5 text-muted-foreground mb-2" />
+              <p className="text-sm font-medium">Students</p>
+            </div>
+            <div className="p-4 border rounded-md hover-elevate active-elevate-2 cursor-pointer">
+              <ClipboardCheck className="h-5 w-5 text-muted-foreground mb-2" />
+              <p className="text-sm font-medium">Attendance</p>
+            </div>
+            <div className="p-4 border rounded-md hover-elevate active-elevate-2 cursor-pointer">
+              <GraduationCap className="h-5 w-5 text-muted-foreground mb-2" />
+              <p className="text-sm font-medium">Academics</p>
+            </div>
+            <div className="p-4 border rounded-md hover-elevate active-elevate-2 cursor-pointer">
+              <BookOpen className="h-5 w-5 text-muted-foreground mb-2" />
+              <p className="text-sm font-medium">Resources</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="shadow-sm border-border/40">
+        <Card className="border shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold">Quick Actions</CardTitle>
           </CardHeader>
@@ -154,23 +185,23 @@ export default function TeacherDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm border-border/40 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
+        <Card className="border shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold">System Status</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between py-2">
               <span className="text-sm text-muted-foreground">Database Backup</span>
-              <span className="text-sm text-green-600 font-semibold">2 hours ago</span>
+              <span className="text-sm text-primary font-medium">2 hours ago</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between py-2">
               <span className="text-sm text-muted-foreground">Bot Status</span>
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span className="text-sm text-green-600 font-semibold">Active</span>
+                <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                <span className="text-sm font-medium">Active</span>
               </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between py-2">
               <span className="text-sm text-muted-foreground">Storage Used</span>
               <span className="text-sm font-medium">245 MB / 10 GB</span>
             </div>

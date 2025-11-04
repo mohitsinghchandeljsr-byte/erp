@@ -23,8 +23,9 @@ const EBooksPage = lazy(() => import("@/pages/ebooks-page"));
 const EventsPage = lazy(() => import("@/pages/events-page"));
 const StudentDashboard = lazy(() => import("@/pages/student-dashboard"));
 const NotFound = lazy(() => import("@/pages/not-found"));
-import { Bell, LogOut } from "lucide-react";
+import { Bell, LogOut, Search, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -47,19 +48,39 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
       <div className="flex h-screen w-full">
         <AppSidebar role="teacher" />
         <div className="flex flex-col flex-1 overflow-hidden">
-          <header className="flex items-center justify-between gap-3 px-4 py-2 border-b bg-background sticky top-0 z-40">
-            <SidebarTrigger data-testid="button-sidebar-toggle" />
+          <header className="flex items-center justify-between gap-3 px-6 py-3 border-b bg-background sticky top-0 z-40">
+            <div className="flex items-center gap-3 flex-1">
+              <SidebarTrigger data-testid="button-sidebar-toggle" />
+              <div className="relative w-full max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search or type a command (Ctrl + @)" 
+                  className="pl-9 bg-muted/50"
+                  data-testid="input-search"
+                />
+              </div>
+            </div>
             <div className="flex items-center gap-2">
-              <ChatBot />
               <Button variant="ghost" size="icon" data-testid="button-notifications">
-                <Bell className="h-5 w-5" />
+                <Bell className="h-4 w-4" />
               </Button>
-              <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
-                      <AvatarFallback>{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
+                  <Button variant="ghost" size="icon" data-testid="button-help">
+                    <HelpCircle className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Documentation</DropdownMenuItem>
+                  <DropdownMenuItem>Keyboard Shortcuts</DropdownMenuItem>
+                  <DropdownMenuItem>Contact Support</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full" data-testid="button-user-menu">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="text-xs">{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
@@ -71,6 +92,8 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile Settings</DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout} data-testid="button-logout">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
@@ -79,7 +102,7 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-4">
+          <main className="flex-1 overflow-auto p-6 bg-muted/30">
             {children}
           </main>
         </div>
@@ -100,19 +123,39 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
       <div className="flex h-screen w-full">
         <AppSidebar role="student" />
         <div className="flex flex-col flex-1 overflow-hidden">
-          <header className="flex items-center justify-between gap-3 px-4 py-2 border-b bg-background sticky top-0 z-40">
-            <SidebarTrigger data-testid="button-sidebar-toggle" />
+          <header className="flex items-center justify-between gap-3 px-6 py-3 border-b bg-background sticky top-0 z-40">
+            <div className="flex items-center gap-3 flex-1">
+              <SidebarTrigger data-testid="button-sidebar-toggle" />
+              <div className="relative w-full max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search or type a command (Ctrl + @)" 
+                  className="pl-9 bg-muted/50"
+                  data-testid="input-search"
+                />
+              </div>
+            </div>
             <div className="flex items-center gap-2">
-              <ChatBot />
               <Button variant="ghost" size="icon" data-testid="button-notifications">
-                <Bell className="h-5 w-5" />
+                <Bell className="h-4 w-4" />
               </Button>
-              <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full">
-                    <Avatar className="h-9 w-9">
-                      <AvatarFallback>{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
+                  <Button variant="ghost" size="icon" data-testid="button-help">
+                    <HelpCircle className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Documentation</DropdownMenuItem>
+                  <DropdownMenuItem>Keyboard Shortcuts</DropdownMenuItem>
+                  <DropdownMenuItem>Contact Support</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full" data-testid="button-user-menu">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback className="text-xs">{user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
@@ -124,6 +167,8 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile Settings</DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout} data-testid="button-logout">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
@@ -132,7 +177,7 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-4">
+          <main className="flex-1 overflow-auto p-6 bg-muted/30">
             {children}
           </main>
         </div>

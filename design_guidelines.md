@@ -1,274 +1,307 @@
-# Design Guidelines: MBA College ERP System
+# Design Guidelines: Clean ERP Interface
 
 ## Design Approach
 
-**Selected Approach:** Design System (shadcn/ui Foundation)
-**Rationale:** Educational ERP systems prioritize clarity, efficiency, and data density over visual experimentation. The shadcn/ui component library provides professional, accessible components optimized for information-heavy applications. This ensures consistency across Teacher and Student interfaces while maintaining distinct functional hierarchies.
+**Inspiration:** ERPNext-style clean, minimal ERP interface
+**Philosophy:** Clarity and simplicity over visual decoration. Professional, institutional aesthetic with focus on usability and information accessibility.
 
 **Core Principles:**
-- **Clarity over creativity** - Information must be instantly scannable
-- **Functional density** - Pack data efficiently without overwhelming users
-- **Role-appropriate hierarchy** - Teacher dashboards emphasize control; Student dashboards emphasize consumption
-- **Academic professionalism** - Clean, trustworthy, institutional aesthetic
+- **Clean and minimal** - Remove unnecessary visual noise
+- **Professional neutrals** - Subtle colors, clean backgrounds
+- **Information hierarchy** - Clear organization with sections and cards
+- **Welcoming experience** - Onboarding guides and helpful shortcuts
+- **Consistent spacing** - Predictable, comfortable layout
 
 ---
 
-## Typography System
+## Color Palette
+
+### Neutral Foundation
+- **Background**: Clean white `#FFFFFF`
+- **Surface**: Very light gray `#F9FAFB` (for cards and panels)
+- **Border**: Subtle gray `#E5E7EB`
+- **Text Primary**: Dark gray `#111827`
+- **Text Secondary**: Medium gray `#6B7280`
+- **Text Tertiary**: Light gray `#9CA3AF`
+
+### Accent Colors (Minimal Use)
+- **Primary**: Soft blue `#3B82F6` (links, primary actions)
+- **Success**: Green `#10B981` (positive status, confirmations)
+- **Warning**: Amber `#F59E0B` (alerts, warnings)
+- **Danger**: Red `#EF4444` (errors, destructive actions)
+
+### Interactive States
+- **Hover**: Light background `#F3F4F6`
+- **Active/Selected**: Subtle blue background `#EFF6FF` with blue border
+- **Focus**: 2px blue ring `#3B82F6`
+
+---
+
+## Typography
 
 **Font Stack:**
-- Primary: `Inter` (Google Fonts) - exceptional readability for UI and data
-- Monospace: `JetBrains Mono` - for student IDs, codes, timestamps
+- Primary: `Inter` - Clean, readable sans-serif
+- Monospace: `JetBrains Mono` - For codes and IDs
 
-**Type Scale:**
-- Hero/Page Titles: `text-4xl` (36px), `font-bold`
-- Section Headers: `text-2xl` (24px), `font-semibold`
-- Card Titles: `text-lg` (18px), `font-medium`
-- Body Text: `text-base` (16px), `font-normal`
-- Metadata/Labels: `text-sm` (14px), `font-medium`
-- Captions/Timestamps: `text-xs` (12px), `font-normal`
+**Type Scale (Regular Case - No Uppercase):**
+- Page Title: `text-2xl` (24px), `font-semibold`
+- Section Header: `text-lg` (18px), `font-medium`
+- Card Title: `text-base` (16px), `font-medium`
+- Body Text: `text-sm` (14px), `font-normal`
+- Labels: `text-sm` (14px), `font-medium`
+- Captions: `text-xs` (12px), `font-normal`
 
-**Line Height:**
-- Headlines: `leading-tight` (1.25)
-- Body text: `leading-relaxed` (1.625)
-- Data tables: `leading-normal` (1.5)
+**Text Colors:**
+- Primary text: Default foreground
+- Secondary text: Muted foreground (60% opacity)
+- Tertiary text: Muted foreground (40% opacity)
 
 ---
 
 ## Layout System
 
-**Spacing Primitives:**
-Use Tailwind units of **2, 4, 6, 8, 12, 16** exclusively for consistency.
-- Micro spacing (icons, badges): `gap-2`, `p-2`
-- Component padding: `p-4` to `p-6`
-- Section spacing: `mb-8`, `space-y-8`
-- Page margins: `px-6 lg:px-12`, `py-8`
+**Spacing:**
+- Extra small: `2` (8px)
+- Small: `3` (12px)
+- Medium: `4` (16px)
+- Large: `6` (24px)
+- Extra large: `8` (32px)
 
-**Grid & Container Strategy:**
-```
-Desktop Container: max-w-7xl mx-auto px-6
-Content Areas: max-w-6xl
-Narrow Forms: max-w-2xl
-Full-width Tables: w-full with horizontal scroll
-```
+**Container Width:**
+- Max width: `max-w-7xl` for main content
+- Centered: `mx-auto px-6`
 
-**Layout Patterns by Screen:**
-
-**Teacher Dashboard (Information Dense):**
-- Two-column layout: Left sidebar (280px fixed) + Main content area
-- Sidebar: Collapsible navigation with icons and labels
-- Main area: 3-4 column metric cards at top, followed by data tables
-- Card grid: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6`
-
-**Student Dashboard (Consumption Focused):**
-- Single-column primary flow with prominent cards
-- Hero section: Upcoming exams/attendance summary (80vh max)
-- Content sections: `max-w-4xl mx-auto` for comfortable reading
-- Card layout: `grid grid-cols-1 md:grid-cols-2 gap-6`
-
-**Data Tables:**
-- Full-width with `overflow-x-auto`
-- Fixed header on scroll
-- Row height: `h-12` (compact) to `h-16` (comfortable)
-- Alternating row treatment for scanability
+**Grid System:**
+- Metric cards: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4`
+- Content cards: `grid grid-cols-1 lg:grid-cols-2 gap-6`
+- Full-width: Tables and lists
 
 ---
 
 ## Component Library
 
 ### Navigation
-**Top Header (Both Roles):**
-- Height: `h-16`
-- Structure: Logo (left) | Search bar (center-left) | Theme toggle + Notifications + User menu (right)
-- Search: `w-96` on desktop, expandable icon on mobile
-- Sticky: `sticky top-0 z-50`
 
-**Sidebar Navigation (Teacher):**
-- Width: `w-72`, collapsible to `w-16` (icon-only)
-- Groups: Student Management, Academics, Resources, System
-- Active state: Emphasized with border and icon treatment
-- Compact icon + label layout with `gap-3`
+**Sidebar:**
+- Width: `280px` (fixed), collapsible to `64px` (icons only)
+- Background: Default background (white/dark)
+- **Collapsible Sections**: Group navigation items under collapsible headers
+- **Section Labels**: Small, uppercase, muted text
+- **Menu Items**: Regular text (not uppercase), icon + label, clean hover state
+- **Active State**: Subtle background color, no bold styling
+- **Icon Size**: `h-4 w-4` for consistency
 
-**Bottom Nav (Student Mobile):**
-- Fixed bottom with 4-5 core items
-- Icon + label, `h-16`
+**Top Header:**
+- Height: `64px`
+- Structure: Logo/Menu (left) | Search bar (center) | Notifications + Help + User (right)
+- Background: White with subtle bottom border
+- Sticky: Yes, with shadow on scroll
 
-### Cards & Containers
-**Metric Cards (Dashboard):**
-- Aspect ratio: Flexible height based on content
+**Search Bar:**
+- Width: `400px` on desktop
+- Placeholder: "Search or type a command (Ctrl + @)"
+- Icon: Search icon on left
+- Rounded corners, subtle border
+
+### Cards
+
+**Welcome/Onboarding Card:**
+- Background: White with subtle border
 - Padding: `p-6`
-- Structure: Large number/stat at top, label below, trend indicator (optional)
-- Grid placement: 3-4 across on desktop
+- Dismissible with X button top-right
+- Contains: Title, description, checklist items, dismiss action
+
+**Metric Cards (Simple Style):**
+- Background: White
+- Border: Subtle `border border-border`
+- Padding: `p-6`
+- Layout: Icon (left) + Value + Label (stacked)
+- **No gradients** - Clean, minimal design
+- Hover: Subtle elevation with `hover-elevate`
 
 **Content Cards:**
+- Border: `border border-border`
+- Shadow: Very subtle `shadow-sm`
 - Padding: `p-6`
-- Header with icon + title + action button
-- Divider between header and content
-- Footer for timestamps/metadata
+- Rounded: `rounded-lg`
 
-**List Items (Attendance, Timetable):**
-- Height: `min-h-20`
-- Left: Icon or avatar (48px circle)
-- Center: Title + subtitle stacked
-- Right: Action buttons or status badge
-- Gap: `gap-4` between items
+**Shortcut Cards:**
+- Simple boxes with icon + text
+- Click to navigate
+- Grid layout: 4-5 per row on desktop
+- Minimal styling, clean borders
 
 ### Forms & Inputs
-**Form Layout:**
-- Two-column on desktop (`grid grid-cols-2 gap-6`), single-column on mobile
-- Full-width for text areas and rich editors
-- Label above input: `mb-2 text-sm font-medium`
-- Input height: `h-12` for comfortable touch targets
-- Help text: `text-xs` below input with `mt-1`
 
-**File Upload (E-books, Photos):**
-- Drag-and-drop area: `min-h-32` with dashed border
-- Preview thumbnails in grid below
-- Progress bars for uploads
+**Input Fields:**
+- Height: `h-10`
+- Border: `border border-input`
+- Rounded: `rounded-md`
+- Focus: Blue ring
+- Background: White
+
+**Buttons:**
+- Primary: Blue background, white text
+- Secondary: White background, border, gray text
+- Ghost: No background, hover shows background
+- Sizes: `default` (h-10), `sm` (h-9), `lg` (h-11)
+
+**Labels:**
+- Position: Above input with small margin
+- Font: `text-sm font-medium`
+- Color: Primary text
 
 ### Data Display
-**Tables (Attendance, Marks, Student List):**
-- Header: `h-12` with `font-medium`
-- Row: `h-12` to `h-14`
-- Pagination: Bottom-right, showing "1-20 of 234"
-- Inline actions: Icon buttons on hover (Edit, Delete, View)
-- Sortable columns with arrow indicators
 
-**ID Card Generator:**
-- Preview canvas: Fixed 3.5:2 ratio (standard ID card)
-- Live preview updates as student fills form
-- QR code: Bottom-right corner, 80px square
-- Print button: Prominent, fixed at preview top-right
+**Tables:**
+- Background: White
+- Border: All around table
+- Header: Light gray background `bg-muted/50`
+- Rows: Alternating hover state
+- Cell padding: `p-3`
+- Font size: `text-sm`
 
-**E-book Viewer:**
-- Full-screen mode option
-- PDF viewer: Embedded with toolbar (zoom, page nav, download toggle)
-- Sidebar: Table of contents (if available)
-- Width: `max-w-4xl mx-auto` for comfortable reading
+**Lists:**
+- Clean separator lines between items
+- Hover: Light background
+- Padding: `p-3 md:p-4`
+- Icon + Text layout
 
-### Overlays & Modals
-**Modal Dialogs:**
-- Max width: `max-w-2xl` for forms, `max-w-4xl` for content
-- Padding: `p-8`
-- Header with title and close button
-- Footer with action buttons aligned right
-
-**Toast Notifications:**
-- Position: Top-right, `fixed top-4 right-4`
-- Auto-dismiss after 5 seconds
-- Stack vertically with `gap-2`
-
-**Bot Interface (Conversational Assistant):**
-- Fixed bottom-right bubble trigger: `w-14 h-14` circle
-- Expanded chat: `w-96 h-[600px]` panel sliding from bottom-right
-- Message list with alternating alignment (user right, bot left)
-- Input at bottom with `h-12`
-
-### Status & Feedback
 **Badges:**
-- Height: `h-6`, padding: `px-3`
-- Pill shape (fully rounded)
-- Use cases: Active/Archived status, attendance percentage ranges, exam scores
+- Rounded: `rounded-full`
+- Padding: `px-3 py-1`
+- Font: `text-xs font-medium`
+- Variants: Default, Success, Warning, Destructive
 
-**Progress Indicators:**
-- Attendance percentage: Circular progress (80px diameter)
-- File uploads: Linear bar with percentage
-- Exam timer: Countdown with warning states
+### Sections
 
----
+**Reports & Masters Section:**
+- Grid of category cards
+- Each card has title and icon
+- Click to view related items
+- Clean, organized layout
 
-## Animations & Interactions
-
-**Minimal Motion Philosophy:**
-Use animations sparingly for academic professionalism.
-
-**Allowed Animations:**
-- Page transitions: Subtle fade (150ms)
-- Card hover: Slight elevation increase (200ms ease)
-- Dropdown menus: Slide down (200ms)
-- Toast notifications: Slide in from right (300ms)
-- Bot interface: Slide up from bottom (400ms ease-out)
-
-**No Animations For:**
-- Table row updates
-- Form validation feedback (instant)
-- Status changes (immediate visual update)
+**Shortcuts Section:**
+- Quick access links to common actions
+- Grid layout with icons
+- Minimal design
 
 ---
 
-## Responsive Behavior
+## Page Layouts
+
+### Dashboard (Both Roles)
+
+**Structure:**
+1. Welcome card (dismissible) at top
+2. Metric cards in grid (4 columns)
+3. Shortcuts section with quick links
+4. Reports & Masters section
+5. Recent activity/data tables
+
+**Welcome Card Contains:**
+- Greeting message
+- Onboarding checklist (if new user)
+- Quick start guide
+- Dismiss button
+
+### Navigation Pages (Students, Attendance, etc.)
+
+**Structure:**
+1. Page header with title and breadcrumb
+2. Filter/search toolbar
+3. Main content (table or cards)
+4. Pagination at bottom
+
+---
+
+## Interactions
+
+**Hover States:**
+- Cards: Very subtle elevation
+- Buttons: Slight darkening of background
+- List items: Light gray background
+- Links: Underline appears
+
+**Active States:**
+- Selected sidebar item: Light blue background
+- Active tab: Blue underline + darker text
+- Pressed button: Slightly darker
+
+**Animations:**
+- Keep minimal and fast (150-200ms)
+- Fade in for toasts
+- Slide down for dropdowns
+- No unnecessary motion
+
+---
+
+## Dark Mode
+
+**Support:** Yes, with proper color tokens
+- Background inverts to dark gray
+- Borders remain subtle
+- Text adjusts for contrast
+- Cards have darker background than page
+
+---
+
+## Accessibility
+
+- **Contrast**: WCAG AA minimum for all text
+- **Focus**: Visible focus ring on all interactive elements
+- **Touch Targets**: Minimum 44x44px
+- **Keyboard**: Full keyboard navigation support
+- **ARIA**: Proper labels for dynamic content
+
+---
+
+## Mobile Responsive
 
 **Breakpoints:**
-- Mobile: `< 768px` - Single column, bottom nav, compact cards
-- Tablet: `768px - 1024px` - Two columns, sidebar toggleable
-- Desktop: `> 1024px` - Full multi-column layout, fixed sidebar
+- Mobile: `< 768px` - Stack cards, hide sidebar, show mobile menu
+- Tablet: `768px - 1024px` - 2 columns, toggleable sidebar
+- Desktop: `> 1024px` - Full layout
 
 **Mobile Adaptations:**
-- Tables: Horizontal scroll with pinned first column OR card-based view for key tables
-- Forms: Stack to single column
-- Dashboard metrics: Single column with full-width cards
-- Navigation: Bottom bar (Student), hamburger menu (Teacher)
+- Bottom navigation for students
+- Hamburger menu for teachers
+- Cards stack to single column
+- Tables scroll horizontally or convert to cards
 
 ---
 
-## Images
+## Visual Examples
 
-**Required Images:**
+### Sidebar Menu Item
+```
+[Icon] Dashboard
+[Icon] Students
+[Icon] Attendance
+```
 
-1. **Dashboard Hero/Welcome Section (Students):**
-   - Placement: Top of student dashboard
-   - Description: Warm, professional image of college campus or study environment
-   - Dimensions: Full-width, 400px height on desktop
-   - Treatment: Subtle overlay for text readability
-   - Content over image: "Welcome back, [Student Name]" + Quick stats
+### Metric Card
+```
+┌─────────────────┐
+│ [Icon]  Total   │
+│         Students│
+│         42      │
+└─────────────────┘
+```
 
-2. **Empty States:**
-   - No attendance records: Simple illustration (400x300)
-   - No e-books: Book stack illustration
-   - No exams scheduled: Calendar illustration
-   - Consistent illustration style throughout
-
-3. **Student Profile/ID Photos:**
-   - Square placeholder: 200x200 for profile, 120x120 for lists
-   - Circular crop in most contexts
-
-4. **Login/Auth Pages:**
-   - Split-screen layout: Form (left 40%) + College campus image (right 60%)
-   - Hero image showing students in professional setting
-
-**No Hero Images For:**
-- Teacher dashboard (data-first approach)
-- Database management interface
-- Forms and CRUD interfaces
-
----
-
-## Role-Specific Design Distinctions
-
-**Teacher Interface:**
-- Dense information layouts with multiple columns
-- Prominent action buttons (Create Student, Mark Attendance, Grade Exam)
-- Advanced filters and bulk operations always visible
-- Table-centric views with inline editing
-- Database management dashboard with real-time metrics and backup status
-
-**Student Interface:**
-- Spacious card-based layouts
-- Consumption-focused with limited actions (View, Download, Submit)
-- Simplified navigation with 4-5 core sections
-- Larger typography for comfort
-- Friendly empty states and onboarding
+### Welcome Card
+```
+┌──────────────────────────────────────┐
+│ Let's begin your journey with ERP  [X]│
+│                                       │
+│ ○ Create your first student          │
+│ ○ Mark attendance                     │
+│ ○ Set up timetable                    │
+│                                       │
+│ [Show More] [Dismiss]                 │
+└──────────────────────────────────────┘
+```
 
 ---
 
-## Accessibility & Quality
-
-- All interactive elements: `min-h-12` for 48px touch target
-- Focus states: Visible 2px outline on all focusable elements
-- Contrast: Ensure WCAG AA minimum for all text
-- Form labels: Always visible (never placeholder-only)
-- Keyboard navigation: Full support for all CRUD operations
-- Screen reader: Proper ARIA labels for data tables and dynamic content
-
----
-
-This design system balances institutional professionalism with modern usability, ensuring both Teachers and Students have optimized experiences for their distinct workflows.
+This design system prioritizes clarity, simplicity, and professional aesthetics suitable for an educational ERP system.
