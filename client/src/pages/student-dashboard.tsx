@@ -17,7 +17,7 @@ export default function StudentDashboard() {
   return (
     <div className="space-y-6" data-testid="page-student-dashboard">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold">Welcome back, Rajesh!</h1>
+        <h1 className="text-2xl font-semibold" style={{ fontFamily: "'Fira Code', monospace" }}>Welcome back, Rajesh!</h1>
         <p className="text-sm text-muted-foreground mt-1">
           MBA 2024-2026 • Student ID: MBA2024001
         </p>
