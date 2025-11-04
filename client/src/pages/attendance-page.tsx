@@ -70,9 +70,9 @@ export default function AttendancePage() {
   });
 
   const getStatusBadge = (status: string) => {
-    const variants: Record<string, "default" | "destructive" | "secondary"> = {
+    const variants: Record<string, "default" | "outline" | "secondary"> = {
       present: "default",
-      absent: "destructive",
+      absent: "outline",
       leave: "secondary",
     };
     return (
