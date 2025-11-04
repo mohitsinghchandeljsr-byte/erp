@@ -102,7 +102,7 @@ function TeacherLayout({ children }: { children: React.ReactNode }) {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-6 bg-muted/30">
+          <main className="flex-1 overflow-auto p-6" style={{ backgroundColor: '#D9DDDC' }}>
             {children}
           </main>
         </div>
@@ -177,7 +177,7 @@ function StudentLayout({ children }: { children: React.ReactNode }) {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-6 bg-muted/30">
+          <main className="flex-1 overflow-auto p-6" style={{ backgroundColor: '#D9DDDC' }}>
             {children}
           </main>
         </div>
