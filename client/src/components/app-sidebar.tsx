@@ -199,7 +199,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
         </div>
       </SidebarHeader>
       <SidebarContent className="px-3">
-        <SidebarGroup className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2">
+        <SidebarGroup className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2 text-[#b5acac]">
           <SidebarGroupContent>
             <SidebarMenu>
               {studentMenuItems.map((item) => (
