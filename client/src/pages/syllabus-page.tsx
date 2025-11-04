@@ -1,91 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Plus, Download, FileText } from "lucide-react";
+import { BookOpen, Plus, FileText } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+
+type SyllabusItem = {
+  id: string;
+  subjectId: string;
+  content: string;
+  version: number;
+  updatedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  subjectName: string | null;
+  subjectCode: string | null;
+  credits: number | null;
+};
 
 export default function SyllabusPage() {
-  const syllabusItems = [
-    {
-      id: 1,
-      subject: "Marketing Management",
-      code: "MBA-MM-101",
-      semester: "Semester 1",
-      credits: 4,
-      topics: [
-        "Introduction to Marketing",
-        "Consumer Behavior",
-        "Marketing Research",
-        "Product & Brand Management",
-        "Pricing Strategies",
-        "Marketing Communications"
-      ],
-      books: [
-        "Marketing Management - Philip Kotler",
-        "Principles of Marketing - Kotler & Armstrong"
-      ],
-      downloadUrl: "#",
-    },
-    {
-      id: 2,
-      subject: "Financial Accounting",
-      code: "MBA-FA-102",
-      semester: "Semester 1",
-      credits: 4,
-      topics: [
-        "Accounting Principles",
-        "Financial Statements",
-        "Journal & Ledger",
-        "Trial Balance",
-        "Final Accounts",
-        "Cash Flow Analysis"
-      ],
-      books: [
-        "Financial Accounting - Warren & Reeve",
-        "Accounting Principles - Weygandt"
-      ],
-      downloadUrl: "#",
-    },
-    {
-      id: 3,
-      subject: "Business Analytics",
-      code: "MBA-BA-103",
-      semester: "Semester 1",
-      credits: 3,
-      topics: [
-        "Data Analytics Fundamentals",
-        "Statistical Methods",
-        "Data Visualization",
-        "Predictive Modeling",
-        "Business Intelligence",
-        "Big Data Applications"
-      ],
-      books: [
-        "Business Analytics - Evans",
-        "Data Science for Business - Provost & Fawcett"
-      ],
-      downloadUrl: "#",
-    },
-    {
-      id: 4,
-      subject: "Organizational Behavior",
-      code: "MBA-OB-104",
-      semester: "Semester 1",
-      credits: 3,
-      topics: [
-        "Individual Behavior",
-        "Motivation Theories",
-        "Leadership Styles",
-        "Team Dynamics",
-        "Organizational Culture",
-        "Change Management"
-      ],
-      books: [
-        "Organizational Behavior - Robbins",
-        "Managing People - Luthans"
-      ],
-      downloadUrl: "#",
-    },
-  ];
+  const { data: syllabusItems = [], isLoading } = useQuery<SyllabusItem[]>({
+    queryKey: ["/api/syllabus"],
+  });
 
   return (
     <div className="space-y-6" data-testid="page-syllabus">
@@ -107,58 +42,49 @@ export default function SyllabusPage() {
         </Button>
       </div>
 
-      <div className="grid gap-4">
-        {syllabusItems.map(syllabus => (
-          <Card key={syllabus.id} className="hover-elevate">
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex gap-3 flex-1">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/10 flex-shrink-0">
-                    <FileText className="h-6 w-6 text-primary" />
+      {isLoading ? (
+        <div className="text-center py-8 text-muted-foreground">Loading syllabus...</div>
+      ) : syllabusItems.length === 0 ? (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            No syllabus found. Add syllabus for your subjects to get started!
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid gap-4">
+          {syllabusItems.map(syllabus => (
+            <Card key={syllabus.id} className="hover-elevate">
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex gap-3 flex-1">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/10 flex-shrink-0">
+                      <FileText className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <CardTitle className="text-lg">{syllabus.subjectName || "Subject"}</CardTitle>
+                        {syllabus.subjectCode && (
+                          <Badge variant="secondary">{syllabus.subjectCode}</Badge>
+                        )}
+                        <Badge variant="outline">v{syllabus.version}</Badge>
+                      </div>
+                      {syllabus.credits && (
+                        <p className="text-sm text-muted-foreground">Credits: {syllabus.credits}</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="space-y-1 flex-1">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <CardTitle className="text-lg">{syllabus.subject}</CardTitle>
-                      <Badge variant="secondary">{syllabus.code}</Badge>
-                      <Badge variant="outline">{syllabus.semester}</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">Credits: {syllabus.credits}</p>
-                  </div>
                 </div>
-                <Button variant="outline" size="sm" data-testid={`button-download-${syllabus.id}`}>
-                  <Download className="mr-2 h-3 w-3" />
-                  Download PDF
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <h4 className="text-sm font-semibold mb-2">Topics Covered:</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {syllabus.topics.map((topic, index) => (
-                    <div key={index} className="flex items-start gap-2 text-sm">
-                      <span className="text-primary mt-1">•</span>
-                      <span className="text-muted-foreground">{topic}</span>
-                    </div>
-                  ))}
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Syllabus Content:</h4>
+                  <div className="text-sm text-muted-foreground whitespace-pre-wrap">{syllabus.content}</div>
                 </div>
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-semibold mb-2">Recommended Books:</h4>
-                <div className="space-y-1">
-                  {syllabus.books.map((book, index) => (
-                    <div key={index} className="flex items-start gap-2 text-sm">
-                      <span className="text-primary">•</span>
-                      <span className="text-muted-foreground">{book}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

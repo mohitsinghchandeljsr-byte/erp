@@ -1,51 +1,26 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, Plus, MapPin, Clock, Users } from "lucide-react";
+import { CalendarDays, Plus, MapPin, Clock } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
+
+type Event = {
+  id: string;
+  title: string;
+  description: string | null;
+  startDate: string;
+  endDate: string | null;
+  location: string | null;
+  requiresRsvp: boolean;
+  createdBy: string;
+  createdAt: string;
+};
 
 export default function EventsPage() {
-  const events = [
-    {
-      id: 1,
-      title: "Industry Guest Lecture - Digital Marketing",
-      date: "2024-11-25",
-      time: "02:00 PM - 04:00 PM",
-      location: "Auditorium Hall",
-      speaker: "Mr. Amit Shah, Google India",
-      attendees: 120,
-      status: "upcoming",
-    },
-    {
-      id: 2,
-      title: "MBA Sports Day 2024",
-      date: "2024-12-05",
-      time: "09:00 AM - 05:00 PM",
-      location: "Sports Ground",
-      speaker: "N/A",
-      attendees: 200,
-      status: "upcoming",
-    },
-    {
-      id: 3,
-      title: "Business Plan Competition Finals",
-      date: "2024-11-18",
-      time: "10:00 AM - 01:00 PM",
-      location: "Seminar Hall",
-      speaker: "Panel of Judges",
-      attendees: 80,
-      status: "upcoming",
-    },
-    {
-      id: 4,
-      title: "Alumni Meet & Networking Session",
-      date: "2024-10-28",
-      time: "06:00 PM - 09:00 PM",
-      location: "Conference Room",
-      speaker: "Alumni Association",
-      attendees: 65,
-      status: "completed",
-    },
-  ];
+  const { data: events = [], isLoading } = useQuery<Event[]>({
+    queryKey: ["/api/events"],
+  });
 
   return (
     <div className="space-y-6" data-testid="page-events">
@@ -67,71 +42,84 @@ export default function EventsPage() {
         </Button>
       </div>
 
-      <div className="grid gap-4">
-        {events.map(event => (
-          <Card key={event.id} className="hover-elevate">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-3 flex-1">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-semibold">{event.title}</h3>
-                    <Badge variant={event.status === "upcoming" ? "default" : "outline"}>
-                      {event.status.charAt(0).toUpperCase() + event.status.slice(1)}
-                    </Badge>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <CalendarDays className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <div className="text-muted-foreground">Date</div>
-                        <div className="font-medium">{new Date(event.date).toLocaleDateString()}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <div className="text-muted-foreground">Time</div>
-                        <div className="font-medium">{event.time}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <div className="text-muted-foreground">Venue</div>
-                        <div className="font-medium">{event.location}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-muted-foreground" />
-                      <div>
-                        <div className="text-muted-foreground">Expected</div>
-                        <div className="font-medium">{event.attendees} attendees</div>
-                      </div>
-                    </div>
-                  </div>
+      {isLoading ? (
+        <div className="text-center py-8 text-muted-foreground">Loading events...</div>
+      ) : events.length === 0 ? (
+        <Card>
+          <CardContent className="p-8 text-center text-muted-foreground">
+            No events found. Create your first event to get started!
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid gap-4">
+          {events.map(event => {
+            const startDate = new Date(event.startDate);
+            const endDate = event.endDate ? new Date(event.endDate) : null;
+            const isUpcoming = startDate > new Date();
 
-                  {event.speaker !== "N/A" && (
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium">Speaker:</span> {event.speaker}
-                    </p>
-                  )}
-                </div>
+            return (
+              <Card key={event.id} className="hover-elevate">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-3 flex-1">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <h3 className="text-xl font-semibold">{event.title}</h3>
+                        <Badge variant={isUpcoming ? "default" : "outline"}>
+                          {isUpcoming ? "Upcoming" : "Past"}
+                        </Badge>
+                        {event.requiresRsvp && (
+                          <Badge variant="secondary">RSVP Required</Badge>
+                        )}
+                      </div>
+                      
+                      {event.description && (
+                        <p className="text-sm text-muted-foreground">{event.description}</p>
+                      )}
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div className="flex items-center gap-2">
+                          <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                          <div>
+                            <div className="text-muted-foreground">Start Date</div>
+                            <div className="font-medium">{format(startDate, "MMM dd, yyyy")}</div>
+                          </div>
+                        </div>
+                        
+                        {endDate && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-muted-foreground" />
+                            <div>
+                              <div className="text-muted-foreground">End Date</div>
+                              <div className="font-medium">{format(endDate, "MMM dd, yyyy")}</div>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {event.location && (
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-muted-foreground" />
+                            <div>
+                              <div className="text-muted-foreground">Venue</div>
+                              <div className="font-medium">{event.location}</div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                <div className="flex flex-col gap-2">
-                  <Button variant="outline" size="sm">View Details</Button>
-                  {event.status === "upcoming" && (
-                    <Button variant="outline" size="sm">RSVP</Button>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                    <div className="flex flex-col gap-2">
+                      <Button variant="outline" size="sm">View Details</Button>
+                      {isUpcoming && event.requiresRsvp && (
+                        <Button variant="outline" size="sm">RSVP</Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
