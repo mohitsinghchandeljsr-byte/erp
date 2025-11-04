@@ -149,26 +149,26 @@ export function AppSidebar({ role }: AppSidebarProps) {
 
     return (
       <Sidebar data-testid="sidebar-teacher">
-        <SidebarHeader className="p-6">
+        <SidebarHeader className="p-6 border-b border-white/20">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white/20 text-white">
               <GraduationCap className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-base font-semibold">Gaya College</h2>
-              <p className="text-xs text-muted-foreground">MBA Department</p>
+              <h2 className="text-base font-semibold text-white">Gaya College</h2>
+              <p className="text-xs text-white/70">MBA Department</p>
             </div>
           </div>
         </SidebarHeader>
         <SidebarContent className="px-3">
           {Object.entries(groupedItems).map(([group, items]) => (
-            <SidebarGroup key={group} className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2 mb-2">
-              <SidebarGroupLabel className="text-xs uppercase text-sidebar-foreground px-0">{group}</SidebarGroupLabel>
+            <SidebarGroup key={group} className="mb-4">
+              <SidebarGroupLabel className="text-xs uppercase text-white px-2 mb-2">{group}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={location === item.url} className="text-sidebar-foreground hover:text-sidebar-foreground">
+                      <SidebarMenuButton asChild isActive={location === item.url} className="text-white hover:bg-white/10">
                         <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>
@@ -187,24 +187,24 @@ export function AppSidebar({ role }: AppSidebarProps) {
 
   return (
     <Sidebar data-testid="sidebar-student">
-      <SidebarHeader className="p-6">
+      <SidebarHeader className="p-6 border-b border-white/20">
         <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white/20 text-white">
             <GraduationCap className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="text-base font-semibold">Gaya College</h2>
-            <p className="text-xs text-muted-foreground">Student Portal</p>
+            <h2 className="text-base font-semibold text-white">Gaya College</h2>
+            <p className="text-xs text-white/70">Student Portal</p>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent className="px-3">
-        <SidebarGroup className="bg-white dark:bg-sidebar-accent rounded-md px-3 py-2">
+        <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {studentMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={location === item.url} className="text-sidebar-foreground hover:text-sidebar-foreground">
+                  <SidebarMenuButton asChild isActive={location === item.url} className="text-white hover:bg-white/10">
                     <Link href={item.url} data-testid={`link-${item.title.toLowerCase().replace(/\s+/g, '-')}`}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
