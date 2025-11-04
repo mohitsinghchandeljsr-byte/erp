@@ -9,8 +9,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Edit, Trash2, Archive } from "lucide-react";
+import { Trash2, Archive } from "lucide-react";
 import { useState } from "react";
+import { StudentEditDialog } from "@/components/student-edit-dialog";
 
 export interface Student {
   id: string;
@@ -21,16 +22,16 @@ export interface Student {
   program: string;
   status: "active" | "archived";
   photoUrl?: string;
+  phone?: string;
 }
 
 interface StudentTableProps {
   students: Student[];
-  onEdit?: (student: Student) => void;
   onDelete?: (student: Student) => void;
   onArchive?: (student: Student) => void;
 }
 
-export function StudentTable({ students, onEdit, onDelete, onArchive }: StudentTableProps) {
+export function StudentTable({ students, onDelete, onArchive }: StudentTableProps) {
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
   return (
@@ -91,14 +92,7 @@ export function StudentTable({ students, onEdit, onDelete, onArchive }: StudentT
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onEdit?.(student)}
-                    data-testid={`button-edit-${student.id}`}
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
+                  <StudentEditDialog student={student} />
                   <Button
                     variant="ghost"
                     size="icon"

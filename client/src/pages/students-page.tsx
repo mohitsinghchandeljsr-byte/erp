@@ -128,8 +128,6 @@ export default function StudentsPage() {
           ) : (
             <StudentTable
               students={filteredStudents}
-              onEdit={(student) => console.log("Edit:", student)}
-              onDelete={(student) => console.log("Delete:", student)}
               onArchive={handleArchive}
             />
           )}

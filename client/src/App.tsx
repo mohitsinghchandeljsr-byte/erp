@@ -24,6 +24,7 @@ const EventsPage = lazy(() => import("@/pages/events-page"));
 const StudentDashboard = lazy(() => import("@/pages/student-dashboard"));
 const StudentIDCardPage = lazy(() => import("@/pages/student-idcard-page"));
 const StudentNotesPage = lazy(() => import("@/pages/student-notes-page"));
+const SettingsPage = lazy(() => import("@/pages/settings-page"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 import { Bell, LogOut, Search, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -301,6 +302,15 @@ function Router() {
           <ProtectedRoute requireRole="teacher">
             <TeacherLayout>
               <EventsPage />
+            </TeacherLayout>
+          </ProtectedRoute>
+        )}
+      </Route>
+      <Route path="/teacher/settings">
+        {() => (
+          <ProtectedRoute requireRole="teacher">
+            <TeacherLayout>
+              <SettingsPage />
             </TeacherLayout>
           </ProtectedRoute>
         )}

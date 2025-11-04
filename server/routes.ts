@@ -6,6 +6,7 @@ import studentsRoutes from "./routes/students.routes";
 import attendanceRoutes from "./routes/attendance.routes";
 import subjectsRoutes from "./routes/subjects.routes";
 import uploadRoutes from "./routes/upload.routes";
+import settingsRoutes from "./routes/settings.routes";
 import { ObjectStorageService } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -18,6 +19,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/attendance", attendanceRoutes);
   app.use("/api/subjects", subjectsRoutes);
   app.use("/api/upload", uploadRoutes);
+  app.use("/api/settings", settingsRoutes);
 
   // Serve public object storage files
   app.get("/public-objects/:filePath(*)", async (req, res) => {

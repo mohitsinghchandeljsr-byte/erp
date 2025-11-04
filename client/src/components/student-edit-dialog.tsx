@@ -1,45 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Edit, Upload, Loader2 } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-interface StudentData {
+interface Student {
   id: string;
   name: string;
   email: string;
   phone?: string;
   photoUrl?: string;
+  studentId: string;
+  program: string;
+  batch: string;
 }
 
-export function StudentProfileEditDialog() {
-  const { user } = useAuth();
+interface StudentEditDialogProps {
+  student: Student;
+}
+
+export function StudentEditDialog({ student }: StudentEditDialogProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string>("");
   const [uploading, setUploading] = useState(false);
 
-  const { data: studentData } = useQuery<StudentData>({
-    queryKey: ["/api/students", user?.id],
-    queryFn: async () => {
-      const students = await fetch("/api/students", { credentials: "include" }).then(r => r.json());
-      const student = students.find((s: any) => s.email === user?.email);
-      return student;
-    },
-    enabled: !!user && open,
+  const [formData, setFormData] = useState({
+    name: student.name,
+    phone: student.phone || "",
+    program: student.program,
+    batch: student.batch,
   });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-  });
+  useEffect(() => {
+    if (open) {
+      setFormData({
+        name: student.name,
+        phone: student.phone || "",
+        program: student.program,
+        batch: student.batch,
+      });
+      setPhotoPreview(student.photoUrl || "");
+      setPhotoFile(null);
+    }
+  }, [open, student]);
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -62,14 +72,14 @@ export function StudentProfileEditDialog() {
   };
 
   const updateMutation = useMutation({
-    mutationFn: async (data: { name: string; phone?: string; photoUrl?: string }) => {
+    mutationFn: async (data: { name: string; phone?: string; program: string; batch: string; photoUrl?: string }) => {
       let photoUrl = data.photoUrl;
 
       if (photoFile) {
         setUploading(true);
         const formData = new FormData();
         formData.append("file", photoFile);
-        formData.append("path", `public/student-photos/${user?.studentId || Date.now()}.jpg`);
+        formData.append("path", `public/student-photos/${student.studentId}-${Date.now()}.jpg`);
 
         try {
           const uploadResponse = await fetch("/api/upload", {
@@ -86,7 +96,7 @@ export function StudentProfileEditDialog() {
         }
       }
 
-      const response = await apiRequest("PATCH", `/api/students/${studentData?.id}`, {
+      const response = await apiRequest("PATCH", `/api/students/${student.id}`, {
         ...data,
         photoUrl,
       });
@@ -94,10 +104,9 @@ export function StudentProfileEditDialog() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/students"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
       toast({
         title: "Success",
-        description: "Profile updated successfully",
+        description: "Student profile updated successfully",
       });
       setOpen(false);
       setPhotoFile(null);
@@ -106,7 +115,7 @@ export function StudentProfileEditDialog() {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to update profile",
+        description: error.message || "Failed to update student profile",
         variant: "destructive",
       });
     },
@@ -117,40 +126,28 @@ export function StudentProfileEditDialog() {
     updateMutation.mutate(formData);
   };
 
-  const handleOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
-    if (newOpen && studentData) {
-      setFormData({
-        name: studentData.name || "",
-        phone: studentData.phone || "",
-      });
-      setPhotoPreview(studentData.photoUrl || "");
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" data-testid="button-edit-profile">
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Profile
+        <Button variant="ghost" size="icon" data-testid={`button-edit-${student.id}`}>
+          <Edit className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogTitle>Edit Student Profile</DialogTitle>
           <DialogDescription>
-            Update your profile information and photo
+            Update student information and ID card photo
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col items-center gap-4">
             <Avatar className="h-24 w-24">
-              {photoPreview || studentData?.photoUrl ? (
-                <AvatarImage src={photoPreview || studentData?.photoUrl} />
+              {photoPreview || student.photoUrl ? (
+                <AvatarImage src={photoPreview || student.photoUrl} />
               ) : (
                 <AvatarFallback className="text-2xl">
-                  {user?.name.split(" ").map(n => n[0]).join("").toUpperCase()}
+                  {student.name.split(" ").map(n => n[0]).join("").toUpperCase()}
                 </AvatarFallback>
               )}
             </Avatar>
@@ -183,7 +180,7 @@ export function StudentProfileEditDialog() {
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter your full name"
+              placeholder="Enter full name"
               required
               data-testid="input-name"
             />
@@ -196,19 +193,43 @@ export function StudentProfileEditDialog() {
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              placeholder="Enter your phone number"
+              placeholder="Enter phone number"
               data-testid="input-phone"
             />
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="program">Program</Label>
+            <Input
+              id="program"
+              value={formData.program}
+              onChange={(e) => setFormData({ ...formData, program: e.target.value })}
+              placeholder="Enter program"
+              required
+              data-testid="input-program"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="batch">Batch</Label>
+            <Input
+              id="batch"
+              value={formData.batch}
+              onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+              placeholder="Enter batch"
+              required
+              data-testid="input-batch"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label>Email (read-only)</Label>
-            <Input value={user?.email || ""} disabled />
+            <Input value={student.email} disabled />
           </div>
 
           <div className="space-y-2">
             <Label>Student ID (read-only)</Label>
-            <Input value={user?.studentId || ""} disabled />
+            <Input value={student.studentId} disabled />
           </div>
 
           <DialogFooter>

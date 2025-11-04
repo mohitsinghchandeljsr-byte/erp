@@ -11,6 +11,7 @@ import {
   Users,
   CreditCard,
   CalendarDays,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar,
@@ -24,6 +25,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 
 const teacherMenuItems = [
   {
@@ -86,6 +88,12 @@ const teacherMenuItems = [
     icon: Database,
     group: "System",
   },
+  {
+    title: "Settings",
+    url: "/teacher/settings",
+    icon: Settings,
+    group: "System",
+  },
 ];
 
 const studentMenuItems = [
@@ -137,6 +145,10 @@ interface AppSidebarProps {
 
 export function AppSidebar({ role }: AppSidebarProps) {
   const [location] = useLocation();
+  const { data: settings = {} } = useQuery<Record<string, string>>({
+    queryKey: ["/api/settings"],
+  });
+  const collegeName = settings.collegeName || "Gaya College";
 
   if (role === "teacher") {
     const groupedItems = teacherMenuItems.reduce((acc, item) => {
@@ -155,7 +167,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
               <GraduationCap className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-white">Gaya College</h2>
+              <h2 className="text-base font-semibold text-white">{collegeName}</h2>
               <p className="text-xs text-white/70">MBA Department</p>
             </div>
           </div>
@@ -193,7 +205,7 @@ export function AppSidebar({ role }: AppSidebarProps) {
             <GraduationCap className="h-5 w-5" />
           </div>
           <div>
-            <h2 className="text-base font-semibold text-white">Gaya College</h2>
+            <h2 className="text-base font-semibold text-white">{collegeName}</h2>
             <p className="text-xs text-white/70">Student Portal</p>
           </div>
         </div>

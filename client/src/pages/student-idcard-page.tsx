@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import QRCode from "qrcode";
 import { useEffect, useRef } from "react";
-import { StudentProfileEditDialog } from "@/components/student-profile-edit-dialog";
 import { useQuery } from "@tanstack/react-query";
 
 export default function StudentIDCardPage() {
@@ -21,6 +20,12 @@ export default function StudentIDCardPage() {
     },
     enabled: !!user,
   });
+
+  const { data: settings = {} } = useQuery<Record<string, string>>({
+    queryKey: ["/api/settings"],
+  });
+
+  const collegeName = settings.collegeName || "Gaya College";
 
   useEffect(() => {
     if (qrCanvasRef.current && user) {
@@ -49,20 +54,17 @@ export default function StudentIDCardPage() {
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
-          <StudentProfileEditDialog />
-          <Button data-testid="button-download-id">
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
-        </div>
+        <Button data-testid="button-download-id">
+          <Download className="mr-2 h-4 w-4" />
+          Download
+        </Button>
       </div>
 
       <div className="max-w-2xl mx-auto">
         <Card className="border-2">
           <CardHeader className="pb-4 bg-primary text-primary-foreground">
             <CardTitle className="text-center text-xl">
-              Gaya College MBA Department
+              {collegeName} MBA Department
             </CardTitle>
             <p className="text-center text-sm opacity-90">Student Identification Card</p>
           </CardHeader>
